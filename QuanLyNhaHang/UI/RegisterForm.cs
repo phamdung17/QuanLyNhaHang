@@ -14,7 +14,7 @@ namespace QuanLyNhaHang.UI
             InitializeComponent();
         }
 
-        
+
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
@@ -22,7 +22,7 @@ namespace QuanLyNhaHang.UI
             string password = txtPassword.Text.Trim();
             string confirm = txtConfirmPassword.Text.Trim();
             string fullname = txtFullName.Text.Trim();
-            
+
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -48,16 +48,6 @@ namespace QuanLyNhaHang.UI
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void RegisterForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
