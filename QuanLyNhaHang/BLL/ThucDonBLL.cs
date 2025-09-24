@@ -6,47 +6,52 @@ namespace QuanLyNhaHang.BLL
 {
     public class ThucDonBLL
     {
-        public static List<ThucDonViewModel> GetThucDon()
+        public static List<ThucDonViewModel> GetMenu()
         {
-            using (var db = new QuanLyNhaHangDbContext())
+            using (var db = new Model1()) // tên DbContext của bạn
             {
-                var list = db.ThucDons.ToList();
+                var list = db.ThucDon
+                    .Where(m => m.TrangThai == true)   // chỉ món còn bán
+                    .ToList();
 
-                // Mapping sang ViewModel
-                var result = list.Select(m => new ThucDonViewModel
+                var vmList = list.Select(m => new ThucDonViewModel
                 {
                     MonID = m.MonID,
                     TenMon = m.TenMon,
                     DonGia = m.DonGia,
                     DonViTinh = m.DonViTinh,
-                    TrangThai = m.TrangThai,
-
-                    // Setup ngoài
-                    HinhAnh = GetImagePath(m.MonID),
-                    LoaiMon = GetCategory(m.MonID)
+                    TrangThai = m.TrangThai ?? false,
+                    HinhAnh = GetImageForMon(m.MonID),   // gán tên file ảnh (không phải đường dẫn tuyệt đối)
+                    LoaiMon = GetLoaiForMon(m.MonID)
                 }).ToList();
 
-                return result;
+                return vmList;
             }
         }
 
-        private static string GetImagePath(int monId)
+        // --- Tùy bạn chọn 1 trong 2 cách: gán theo MonID (ở đây) hoặc map theo tên/DB ---
+        private static string GetImageForMon(int monId)
         {
-            // Gắn ảnh theo ID hoặc theo logic khác
+            // trả về tên file trong thư mục Images (ví dụ: "anh1.jpg")
             switch (monId)
             {
-                case 1: return "Images/pho.jpg";
-                case 2: return "Images/coca.jpg";
-                default: return "Images/default.png";
+                case 1: return "anh1.jpg";
+                case 2: return "anh2.jpg";
+                case 3: return "anh3.jpg";
+                case 4: return "anh4.jpg";
+                case 5: return "anh5.jmg";
+                default: return "no_image.jpg";
             }
         }
 
-        private static string GetCategory(int monId)
+        private static string GetLoaiForMon(int monId)
         {
-            // Tạm hardcode loại món
-            if (monId == 1) return "Món chính";
-            if (monId == 2) return "Đồ uống";
-            return "Khác";
+            switch (monId)
+            {
+                case 1: return "Món chính";
+                case 2: return "Khai vị";
+                default: return "Khác";
+            }
         }
     }
 }

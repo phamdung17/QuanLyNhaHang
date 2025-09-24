@@ -58,12 +58,11 @@
             this.flowThucDon.AutoScroll = true;
             this.flowThucDon.BackColor = System.Drawing.Color.Ivory;
             this.flowThucDon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowThucDon.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-            this.flowThucDon.WrapContents = true;
             this.flowThucDon.Location = new System.Drawing.Point(3, 3);
             this.flowThucDon.Name = "flowThucDon";
             this.flowThucDon.Size = new System.Drawing.Size(1189, 648);
             this.flowThucDon.TabIndex = 0;
+
             // 
             // tabGioHang
             // 
@@ -107,6 +106,7 @@
             this.tabControl.ResumeLayout(false);
             this.tabThucDon.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion

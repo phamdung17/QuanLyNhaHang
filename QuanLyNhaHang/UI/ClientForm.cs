@@ -9,41 +9,44 @@ namespace QuanLyNhaHang
 {
     public partial class ClientForm : Form
     {
-        private List<ThucDon> gioHang = new List<ThucDon>();
+        private List<ThucDonViewModel> gioHang = new List<ThucDonViewModel>();
+        private NguoiDung currentUser;
 
-        public ClientForm()
+        public ClientForm(NguoiDung user)
         {
             InitializeComponent();
+            currentUser = user;
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-            var thucDonList = ThucDonBLL.GetThucDon();
-
-            foreach (var item in thucDonList)
-            {
-                var uc = new UcMonAn(item); // UserControl custom
-                flowThucDon.Controls.Add(uc);
-            }
+            LoadThucDon();
+            // cập nhật UI nếu có label hiển thị user
+            if (this.Controls.ContainsKey("lblWelcome"))
+                (this.Controls["lblWelcome"] as Label).Text = $"Xin chào {currentUser?.HoTen}";
         }
 
         private void LoadThucDon()
         {
             flowThucDon.Controls.Clear();
-            var listMon = ThucDonBLL.GetAll();
-
-            foreach (var mon in listMon)
+            var menu = ThucDonBLL.GetMenu();
+            foreach (var item in menu)
             {
-                var uc = new UC_MonAn(mon);
+                var uc = new UC_MonAn(item);
                 uc.OnAddToCart += Uc_OnAddToCart;
                 flowThucDon.Controls.Add(uc);
             }
         }
 
-        private void Uc_OnAddToCart(object sender, ThucDon mon)
+        private void Uc_OnAddToCart(object sender, ThucDonViewModel mon)
         {
             gioHang.Add(mon);
-            MessageBox.Show($"{mon.TenMon} đã thêm vào giỏ!");
+            MessageBox.Show($"Đã thêm {mon.TenMon} vào giỏ hàng", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // cập nhật label giỏ hàng nếu có
+            if (this.Controls.ContainsKey("lblGioHang"))
+                (this.Controls["lblGioHang"] as Label).Text = $"Giỏ: {gioHang.Count} món";
         }
+
+        public List<ThucDonViewModel> GetGioHang() => gioHang;
     }
 }

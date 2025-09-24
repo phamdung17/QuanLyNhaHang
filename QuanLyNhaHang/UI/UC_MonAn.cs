@@ -8,11 +8,11 @@ namespace QuanLyNhaHang.UI
 {
     public partial class UC_MonAn : UserControl
     {
-        private ThucDon mon;
+        private ThucDonViewModel mon;
 
-        public event EventHandler<ThucDon> OnAddToCart;
+        public event EventHandler<ThucDonViewModel> OnAddToCart;
 
-        public UC_MonAn(ThucDon monAn)
+        public UC_MonAn(ThucDonViewModel monAn)
         {
             InitializeComponent();
             mon = monAn;
@@ -23,16 +23,58 @@ namespace QuanLyNhaHang.UI
         {
             lblTen.Text = mon.TenMon;
             lblGia.Text = mon.DonGia.ToString("N0") + " đ";
+            lblLoai.Text = mon.LoaiMon ?? "";
 
-            if (!string.IsNullOrEmpty(mon.HinhAnh) && File.Exists(mon.HinhAnh))
-                picMon.Image = Image.FromFile(mon.HinhAnh);
+            // đường dẫn tới folder Images trong output (bin/Debug/Images/)
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string imgFileName = mon.HinhAnh ?? "no_image.jpg";
+            string imgPath = Path.Combine(basePath, "Images", imgFileName);
+
+            Image img = null;
+            try
+            {
+                if (File.Exists(imgPath))
+                {
+                    // mở bằng FileStream rồi clone vừa tránh file lock vừa an toàn
+                    using (var fs = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
+                    {
+                        img = Image.FromStream(fs);
+                    }
+                }
+            }
+            catch
+            {
+                img = null;
+            }
+
+            if (img != null)
+                picMon.Image = new Bitmap(img);
             else
-                picMon.Image = Properties.Resources.no_image; // ảnh mặc định
+            {
+                // fallback: nếu bạn đã thêm no_image.jpg trong Images thì sẽ load được
+                string defaultImg = Path.Combine(basePath, "Images", "no_image.jpg");
+                if (File.Exists(defaultImg))
+                {
+                    using (var fs = new FileStream(defaultImg, FileMode.Open, FileAccess.Read))
+                    {
+                        picMon.Image = Image.FromStream(fs);
+                    }
+                }
+                else
+                {
+                    picMon.Image = SystemIcons.Application.ToBitmap();
+                }
+            }
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
             OnAddToCart?.Invoke(this, mon);
+        }
+
+        private void UC_MonAn_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
