@@ -1,47 +1,49 @@
-﻿using QuanLyNhaHang.Models;  
+﻿using QuanLyNhaHang.BLL;
+using QuanLyNhaHang.Models;
+using QuanLyNhaHang.UI;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace QuanLyNhaHang.UI
+namespace QuanLyNhaHang
 {
     public partial class ClientForm : Form
     {
-        private NguoiDung currentUser;  // ✅ user hiện tại
+        private List<ThucDon> gioHang = new List<ThucDon>();
 
-        // Constructor nhận user
-        public ClientForm(NguoiDung user)
+        public ClientForm()
         {
             InitializeComponent();
-            currentUser = user; // gán user truyền vào biến thành viên
-
         }
-        private void LoadThucDon()
+
+        private void ClientForm_Load(object sender, EventArgs e)
         {
-            flowThucDon.Controls.Clear();
+            var thucDonList = ThucDonBLL.GetThucDon();
 
-            var listMon = new List<(string Ten, decimal Gia, string Img)>
+            foreach (var item in thucDonList)
             {
-                ("Phở bò", 45000, "Images/pho_bo.jpg"),
-                ("Cơm gà", 40000, "Images/com_ga.jpg"),
-                ("Lẩu thái", 120000, "Images/lau_thai.jpg"),
-                ("Trà chanh", 15000, "Images/tra_chanh.jpg")
-            };
-
-            foreach (var mon in listMon)
-            {
-                UC_MonAn uc = new UC_MonAn();
-                uc.SetData(mon.Ten, mon.Gia, mon.Img);
+                var uc = new UcMonAn(item); // UserControl custom
                 flowThucDon.Controls.Add(uc);
             }
         }
-        private void ClientForm_Load(object sender, EventArgs e)
-        {
-            // Ví dụ: hiển thị tên client ở tiêu đề
-            this.Text = $"Client Panel - Xin chào {currentUser.HoTen}";
 
-            LoadThucDon();
+        private void LoadThucDon()
+        {
+            flowThucDon.Controls.Clear();
+            var listMon = ThucDonBLL.GetAll();
+
+            foreach (var mon in listMon)
+            {
+                var uc = new UC_MonAn(mon);
+                uc.OnAddToCart += Uc_OnAddToCart;
+                flowThucDon.Controls.Add(uc);
+            }
         }
 
+        private void Uc_OnAddToCart(object sender, ThucDon mon)
+        {
+            gioHang.Add(mon);
+            MessageBox.Show($"{mon.TenMon} đã thêm vào giỏ!");
+        }
     }
 }

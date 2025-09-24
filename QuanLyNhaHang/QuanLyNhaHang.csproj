@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\NguoiDungBLL.cs" />
+    <Compile Include="BLL\ThucDonBLL.cs" />
     <Compile Include="DAL\NguoiDungDAL.cs" />
     <Compile Include="Models\BanAn.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\NguoiDung.cs" />
     <Compile Include="Models\ThucDon.cs" />
+    <Compile Include="Models\ThucDonViewModel.cs" />
     <Compile Include="UI\AdminForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,8 +1,15 @@
-﻿namespace QuanLyNhaHang.UI
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace QuanLyNhaHang.UI
 {
     partial class UC_MonAn
     {
         private System.ComponentModel.IContainer components = null;
+        private PictureBox picMon;
+        private Label lblTen;
+        private Label lblGia;
+        private Button btnThem;
 
         protected override void Dispose(bool disposing)
         {
@@ -12,71 +19,63 @@
 
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblTenMon = new System.Windows.Forms.Label();
+            this.picMon = new System.Windows.Forms.PictureBox();
+            this.lblTen = new System.Windows.Forms.Label();
             this.lblGia = new System.Windows.Forms.Label();
-            this.btnThemGio = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.btnThem = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.picMon)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // picMon
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(164, 120);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.picMon.Location = new System.Drawing.Point(3, 3);
+            this.picMon.Name = "picMon";
+            this.picMon.Size = new System.Drawing.Size(144, 80);
+            this.picMon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picMon.TabIndex = 0;
+            this.picMon.TabStop = false;
             // 
-            // lblTenMon
+            // lblTen
             // 
-            this.lblTenMon.AutoSize = true;
-            this.lblTenMon.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTenMon.Location = new System.Drawing.Point(10, 130);
-            this.lblTenMon.Name = "lblTenMon";
-            this.lblTenMon.Size = new System.Drawing.Size(66, 19);
-            this.lblTenMon.TabIndex = 2;
-            this.lblTenMon.Text = "Tên món";
+            this.lblTen.AutoSize = true;
+            this.lblTen.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTen.Location = new System.Drawing.Point(3, 86);
+            this.lblTen.Name = "lblTen";
+            this.lblTen.Size = new System.Drawing.Size(66, 19);
+            this.lblTen.TabIndex = 1;
+            this.lblTen.Text = "Tên món";
             // 
             // lblGia
             // 
             this.lblGia.AutoSize = true;
-            this.lblGia.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblGia.ForeColor = System.Drawing.Color.Red;
-            this.lblGia.Location = new System.Drawing.Point(10, 155);
+            this.lblGia.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblGia.Location = new System.Drawing.Point(3, 110);
             this.lblGia.Name = "lblGia";
-            this.lblGia.Size = new System.Drawing.Size(40, 15);
-            this.lblGia.TabIndex = 1;
-            this.lblGia.Text = "0 VNĐ";
+            this.lblGia.Size = new System.Drawing.Size(23, 13);
+            this.lblGia.TabIndex = 2;
+            this.lblGia.Text = "0 đ";
             // 
-            // btnThemGio
+            // btnThem
             // 
-            this.btnThemGio.Location = new System.Drawing.Point(10, 180);
-            this.btnThemGio.Name = "btnThemGio";
-            this.btnThemGio.Size = new System.Drawing.Size(100, 30);
-            this.btnThemGio.TabIndex = 0;
-            this.btnThemGio.Text = "Thêm giỏ";
+            this.btnThem.Location = new System.Drawing.Point(80, 106);
+            this.btnThem.Name = "btnThem";
+            this.btnThem.Size = new System.Drawing.Size(60, 25);
+            this.btnThem.TabIndex = 3;
+            this.btnThem.Text = "Thêm";
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
             // UC_MonAn
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(164, 181);
-            this.Controls.Add(this.btnThemGio);
+            this.Controls.Add(this.picMon);
+            this.Controls.Add(this.lblTen);
             this.Controls.Add(this.lblGia);
-            this.Controls.Add(this.lblTenMon);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnThem);
             this.Name = "UC_MonAn";
-            //this.Load += new System.EventHandler(this.UC_MonAn_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Size = new System.Drawing.Size(150, 140);
+            ((System.ComponentModel.ISupportInitialize)(this.picMon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label lblTenMon;
-        private System.Windows.Forms.Label lblGia;
-        private System.Windows.Forms.Button btnThemGio;
     }
 }

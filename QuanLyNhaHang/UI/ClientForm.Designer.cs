@@ -1,4 +1,4 @@
-﻿namespace QuanLyNhaHang.UI
+﻿namespace QuanLyNhaHang
 {
     partial class ClientForm
     {

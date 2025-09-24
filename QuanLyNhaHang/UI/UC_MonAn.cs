@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyNhaHang.Models;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -7,34 +8,31 @@ namespace QuanLyNhaHang.UI
 {
     public partial class UC_MonAn : UserControl
     {
-        public string TenMon { get; private set; }
-        public decimal Gia { get; private set; }
-        public string ImgPath { get; private set; }
+        private ThucDon mon;
 
-        public UC_MonAn()
+        public event EventHandler<ThucDon> OnAddToCart;
+
+        public UC_MonAn(ThucDon monAn)
         {
             InitializeComponent();
+            mon = monAn;
+            LoadData();
         }
 
-        public void SetData(string ten, decimal gia, string imgPath)
+        private void LoadData()
         {
-            TenMon = ten;
-            Gia = gia;
-            ImgPath = imgPath;
+            lblTen.Text = mon.TenMon;
+            lblGia.Text = mon.DonGia.ToString("N0") + " đ";
 
-            lblTenMon.Text = ten;
-            lblGia.Text = gia.ToString("N0") + " đ";
-
-            if (!string.IsNullOrEmpty(imgPath) && File.Exists(imgPath))
-                pictureBox1.Image = Image.FromFile(imgPath);
+            if (!string.IsNullOrEmpty(mon.HinhAnh) && File.Exists(mon.HinhAnh))
+                picMon.Image = Image.FromFile(mon.HinhAnh);
             else
-                pictureBox1.Image = Properties.Resources.no_image; // ảnh mặc định
+                picMon.Image = Properties.Resources.no_image; // ảnh mặc định
         }
 
-        private void btnThemGio_Click(object sender, EventArgs e)
+        private void btnThem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"Đã thêm {TenMon} vào giỏ hàng!",
-                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            OnAddToCart?.Invoke(this, mon);
         }
     }
 }
