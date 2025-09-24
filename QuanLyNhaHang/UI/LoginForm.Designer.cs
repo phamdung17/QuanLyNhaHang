@@ -59,11 +59,11 @@
             this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtPassword.Location = new System.Drawing.Point(79, 200);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.PasswordChar = '*'; // ẩn mk
             this.txtPassword.Size = new System.Drawing.Size(180, 25);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPassword.UseSystemPasswordChar = true; // ẩm mk
             // 
             // Registerlog
             // 
@@ -113,7 +113,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(224)))));
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold); 
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label2.Location = new System.Drawing.Point(79, 180);
             this.label2.Name = "label2";

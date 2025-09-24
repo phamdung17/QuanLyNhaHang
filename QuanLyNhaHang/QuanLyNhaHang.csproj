@@ -93,6 +93,12 @@
     <Compile Include="UI\RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UC_MonAn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_MonAn.Designer.cs">
+      <DependentUpon>UC_MonAn.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="UI\AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,6 +120,9 @@
     <EmbeddedResource Include="UI\RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_MonAn.resx">
+      <DependentUpon>UC_MonAn.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -131,6 +140,13 @@
   <ItemGroup>
     <Folder Include="Reports\" />
     <Folder Include="Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\anh1.jpg" />
+    <Content Include="Images\anh2.jpg" />
+    <Content Include="Images\anh3.jpg" />
+    <Content Include="Images\anh4.jpg" />
+    <Content Include="Images\anh5.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
