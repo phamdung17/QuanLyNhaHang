@@ -20,24 +20,13 @@
 
         private void InitializeComponent()
         {
-            this.picMon = new System.Windows.Forms.PictureBox();
             this.lblTen = new System.Windows.Forms.Label();
             this.lblGia = new System.Windows.Forms.Label();
             this.lblLoai = new System.Windows.Forms.Label();
             this.btnThem = new System.Windows.Forms.Button();
+            this.picMon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picMon)).BeginInit();
             this.SuspendLayout();
-            // 
-            // picMon
-            // 
-            this.picMon.BackColor = System.Drawing.Color.White;
-            this.picMon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picMon.Location = new System.Drawing.Point(5, 5);
-            this.picMon.Name = "picMon";
-            this.picMon.Size = new System.Drawing.Size(160, 120);
-            this.picMon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picMon.TabIndex = 0;
-            this.picMon.TabStop = false;
             // 
             // lblTen
             // 
@@ -76,13 +65,24 @@
             this.btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnThem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnThem.ForeColor = System.Drawing.Color.White;
-            this.btnThem.Location = new System.Drawing.Point(25, 195);
+            this.btnThem.Location = new System.Drawing.Point(51, 185);
             this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(120, 30);
+            this.btnThem.Size = new System.Drawing.Size(68, 23);
             this.btnThem.TabIndex = 4;
-            this.btnThem.Text = "Thêm vào giỏ";
+            this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
+            // 
+            // picMon
+            // 
+            this.picMon.BackColor = System.Drawing.Color.White;
+            this.picMon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picMon.Location = new System.Drawing.Point(7, 8);
+            this.picMon.Name = "picMon";
+            this.picMon.Size = new System.Drawing.Size(156, 107);
+            this.picMon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picMon.TabIndex = 0;
+            this.picMon.TabStop = false;
             // 
             // UC_MonAn
             // 
@@ -95,8 +95,7 @@
             this.Controls.Add(this.btnThem);
             this.Name = "UC_MonAn";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Size = new System.Drawing.Size(180, 240);
-            this.Load += new System.EventHandler(this.UC_MonAn_Load);
+            this.Size = new System.Drawing.Size(171, 216);
             ((System.ComponentModel.ISupportInitialize)(this.picMon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

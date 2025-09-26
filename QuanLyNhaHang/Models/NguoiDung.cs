@@ -32,8 +32,7 @@ namespace QuanLyNhaHang.Models
 
         [Required]
         [StringLength(20)]
-        public string VaiTro { get; set; }   
-
+        public string VaiTro { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DatBan> DatBan { get; set; }

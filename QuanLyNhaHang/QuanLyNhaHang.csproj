@@ -47,6 +47,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,28 +59,106 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BanAnBLL.cs" />
+    <Compile Include="BLL\DatBanBLL.cs" />
+    <Compile Include="BLL\GioHangBLL.cs" />
+    <Compile Include="BLL\HoaDonBLL.cs" />
     <Compile Include="BLL\NguoiDungBLL.cs" />
     <Compile Include="BLL\ThucDonBLL.cs" />
     <Compile Include="DAL\NguoiDungDAL.cs" />
     <Compile Include="Models\BanAn.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\DatBan.cs" />
+    <Compile Include="Models\GioHangItem.cs" />
     <Compile Include="Models\HoaDon.cs" />
     <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\NguoiDung.cs" />
     <Compile Include="Models\ThucDon.cs" />
     <Compile Include="Models\ThucDonViewModel.cs" />
+    <Compile Include="UI\AddToCartEventArgs.cs" />
     <Compile Include="UI\AdminForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\BanAnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\BanAnForm.Designer.cs">
+      <DependentUpon>BanAnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BaoCaoDTForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\BaoCaoDTForm.Designer.cs">
+      <DependentUpon>BaoCaoDTForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChiTietHoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChiTietHoaDon.Designer.cs">
+      <DependentUpon>ChiTietHoaDon.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\ClientForm.Designer.cs">
       <DependentUpon>ClientForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DuyetBanAnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DuyetBanAnForm.Designer.cs">
+      <DependentUpon>DuyetBanAnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LichSuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LichSuForm.Designer.cs">
+      <DependentUpon>LichSuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\QLBanAnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\QLBanAnForm.Designer.cs">
+      <DependentUpon>QLBanAnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\QLHoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\QLHoaDon.Designer.cs">
+      <DependentUpon>QLHoaDon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\QLThucDonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\QLThucDonForm.Designer.cs">
+      <DependentUpon>QLThucDonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ThucDonOder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ThucDonOder.Designer.cs">
+      <DependentUpon>ThucDonOder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TKadminForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\TKadminForm.Designer.cs">
+      <DependentUpon>TKadminForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TKclientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\TKclientForm.Designer.cs">
+      <DependentUpon>TKclientForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UC_BanAn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_BanAn.Designer.cs">
+      <DependentUpon>UC_BanAn.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LoginForm.cs">
       <SubType>Form</SubType>
@@ -104,8 +183,23 @@
     <EmbeddedResource Include="UI\AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\BanAnForm.resx">
+      <DependentUpon>BanAnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\BaoCaoDTForm.resx">
+      <DependentUpon>BaoCaoDTForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChiTietHoaDon.resx">
+      <DependentUpon>ChiTietHoaDon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DuyetBanAnForm.resx">
+      <DependentUpon>DuyetBanAnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LichSuForm.resx">
+      <DependentUpon>LichSuForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -118,9 +212,31 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\QLBanAnForm.resx">
+      <DependentUpon>QLBanAnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\QLHoaDon.resx">
+      <DependentUpon>QLHoaDon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\QLThucDonForm.resx">
+      <DependentUpon>QLThucDonForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ThucDonOder.resx">
+      <DependentUpon>ThucDonOder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TKadminForm.resx">
+      <DependentUpon>TKadminForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TKclientForm.resx">
+      <DependentUpon>TKclientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_BanAn.resx">
+      <DependentUpon>UC_BanAn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UC_MonAn.resx">
       <DependentUpon>UC_MonAn.cs</DependentUpon>
@@ -159,6 +275,7 @@
     <Content Include="Images\no_image.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\images %281%29.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

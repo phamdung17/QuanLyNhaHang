@@ -8,7 +8,7 @@ namespace QuanLyNhaHang.Models
     public partial class Model1 : DbContext
     {
         public Model1()
-            : base("name=NhaHangContext")
+            : base("name=Model1")
         {
         }
 

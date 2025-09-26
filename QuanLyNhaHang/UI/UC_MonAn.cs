@@ -24,7 +24,6 @@ namespace QuanLyNhaHang.UI
             lblTen.Text = mon.TenMon;
             lblGia.Text = mon.DonGia.ToString("N0") + " đ";
             lblLoai.Text = mon.LoaiMon ?? "";
-
             // đường dẫn tới folder Images trong output (bin/Debug/Images/)
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string imgFileName = mon.HinhAnh ?? "no_image.jpg";

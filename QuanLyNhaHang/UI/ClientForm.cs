@@ -3,50 +3,69 @@ using QuanLyNhaHang.Models;
 using QuanLyNhaHang.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace QuanLyNhaHang
 {
     public partial class ClientForm : Form
     {
-        private List<ThucDonViewModel> gioHang = new List<ThucDonViewModel>();
-        private NguoiDung currentUser;
-
+       
+        private readonly NguoiDung currentUser;
+      
         public ClientForm(NguoiDung user)
         {
             InitializeComponent();
             currentUser = user;
+
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-            LoadThucDon();
-            // cập nhật UI nếu có label hiển thị user
+
             if (this.Controls.ContainsKey("lblWelcome"))
                 (this.Controls["lblWelcome"] as Label).Text = $"Xin chào {currentUser?.HoTen}";
         }
-
-        private void LoadThucDon()
+        private void OpenChildForm(Form childForm)
         {
-            flowThucDon.Controls.Clear();
-            var menu = ThucDonBLL.GetMenu();
-            foreach (var item in menu)
-            {
-                var uc = new UC_MonAn(item);
-                uc.OnAddToCart += Uc_OnAddToCart;
-                flowThucDon.Controls.Add(uc);
-            }
+            // Xóa control cũ trong panel
+            panelMain.Controls.Clear();
+
+            // Cấu hình form con để hiển thị trong panel
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+
+            // Thêm vào panel
+            panelMain.Controls.Add(childForm);
+            panelMain.Tag = childForm;
+
+            childForm.Show();
+        }
+        private void btnThucDon_Click(object sender, EventArgs e)
+        {
+           OpenChildForm(new ThucDonOder(currentUser));
         }
 
-        private void Uc_OnAddToCart(object sender, ThucDonViewModel mon)
-        {
-            gioHang.Add(mon);
-            MessageBox.Show($"Đã thêm {mon.TenMon} vào giỏ hàng", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            // cập nhật label giỏ hàng nếu có
-            if (this.Controls.ContainsKey("lblGioHang"))
-                (this.Controls["lblGioHang"] as Label).Text = $"Giỏ: {gioHang.Count} món";
-        }
+        private void btnDatBan_Click(object sender, EventArgs e)
+            => OpenChildForm(new BanAnForm(currentUser));
 
-        public List<ThucDonViewModel> GetGioHang() => gioHang;
+        private void btnLichSu_Click(object sender, EventArgs e)
+            => OpenChildForm(new LichSuForm());
+
+        private void btnTkClient_Click(object sender, EventArgs e)
+            => OpenChildForm(new TKclientForm());
+
+        private void btnDangXuat_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var loginForm = new LoginForm();
+            loginForm.Closed += (s, args) => this.Close(); // Đóng ClientForm khi LoginForm đóng
+            loginForm.Show();
+        }
+            
     }
 }
