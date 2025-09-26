@@ -75,7 +75,7 @@
             this.flowThucDon.Location = new System.Drawing.Point(22, 38);
             this.flowThucDon.Name = "flowThucDon";
             this.flowThucDon.Padding = new System.Windows.Forms.Padding(20);
-            this.flowThucDon.Size = new System.Drawing.Size(444, 489);
+            this.flowThucDon.Size = new System.Drawing.Size(423, 489);
             this.flowThucDon.TabIndex = 14;
             // 
             // dgvGioHang
@@ -88,9 +88,9 @@
             this.DonGia,
             this.SoLuong,
             this.ThanhTien});
-            this.dgvGioHang.Location = new System.Drawing.Point(493, 38);
+            this.dgvGioHang.Location = new System.Drawing.Point(451, 38);
             this.dgvGioHang.Name = "dgvGioHang";
-            this.dgvGioHang.Size = new System.Drawing.Size(419, 340);
+            this.dgvGioHang.Size = new System.Drawing.Size(474, 340);
             this.dgvGioHang.TabIndex = 15;
             // 
             // TenMon
