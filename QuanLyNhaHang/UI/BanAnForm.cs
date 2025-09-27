@@ -26,26 +26,29 @@ namespace QuanLyNhaHang.UI
             flowBanAn.Controls.Clear();
             using (var db = new Model1())
             {
-                var listBan = db.BanAn.ToList();
+                var listBan = db.BanAn.Where(b => b.TrangThai == "Trống").ToList();
+
                 foreach (var b in listBan)
                 {
                     var uc = new UC_BanAn(b);
-                    uc.OnChonBan += (s, ban) =>
+
+                    // Khi 1 bàn được check
+                    uc.OnBanChecked += (s, selectedUC) =>
                     {
-                        // Xử lý đặt bàn trực tiếp
-                        DateTime thoiGian = DateTime.Now.AddMinutes(30);
-                        string yeuCau = "Đặt bàn nhanh";
-
-                        DatBanBLL.DatBanMoi(ban.BanID, currentUser.UserID, thoiGian, yeuCau);
-                        MessageBox.Show($"Đã đặt {ban.TenBan} thành công!", "Thông báo");
-
-                        // Reload lại danh sách bàn
-                        LoadBanAn();
+                        foreach (Control ctrl in flowBanAn.Controls)
+                        {
+                            if (ctrl is UC_BanAn otherUC && otherUC != selectedUC)
+                            {
+                                otherUC.Uncheck();
+                            }
+                        }
                     };
+
                     flowBanAn.Controls.Add(uc);
                 }
             }
         }
+
 
         private void flowBanAn_Paint(object sender, PaintEventArgs e)
         {
@@ -56,6 +59,43 @@ namespace QuanLyNhaHang.UI
         {
             LoadBanAn();
         }
+        private void btnDatBan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int userId = currentUser.UserID;
+                DateTime thoiGian = DateTime.Now;
+                bool daChonBan = false;
+
+                foreach (Control control in flowBanAn.Controls)
+                {
+                    if (control is UC_BanAn uc && uc.IsSelected)
+                    {
+                        daChonBan = true;
+                        int banId = uc.BanID;
+                        DatBanBLL.DatBanMoi(banId, userId, thoiGian);
+                    }
+                }
+
+                if (!daChonBan)
+                {
+                    MessageBox.Show("Vui lòng chọn ít nhất một bàn để đặt!",
+                                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                MessageBox.Show("Đặt bàn thành công! Vui lòng chờ Admin duyệt.",
+                                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                LoadBanAn();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi đặt bàn: " + ex.Message,
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
     }
 }

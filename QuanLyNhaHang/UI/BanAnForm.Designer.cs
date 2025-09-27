@@ -31,11 +31,9 @@ namespace QuanLyNhaHang.UI
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnDatBan = new System.Windows.Forms.Button();
-            this.txtYeuCau = new System.Windows.Forms.TextBox();
             this.dtpThoiGian = new System.Windows.Forms.DateTimePicker();
             this.numSoNguoi = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
@@ -47,11 +45,9 @@ namespace QuanLyNhaHang.UI
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnDatBan);
-            this.groupBox1.Controls.Add(this.txtYeuCau);
             this.groupBox1.Controls.Add(this.dtpThoiGian);
             this.groupBox1.Controls.Add(this.numSoNguoi);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
@@ -63,17 +59,6 @@ namespace QuanLyNhaHang.UI
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Đặt Bàn";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.label6.ForeColor = System.Drawing.Color.DarkBlue;
-            this.label6.Location = new System.Drawing.Point(14, 204);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(60, 20);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "Ghi Chú";
             // 
             // label5
             // 
@@ -104,22 +89,13 @@ namespace QuanLyNhaHang.UI
             this.btnDatBan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDatBan.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnDatBan.ForeColor = System.Drawing.Color.White;
-            this.btnDatBan.Location = new System.Drawing.Point(79, 367);
+            this.btnDatBan.Location = new System.Drawing.Point(18, 223);
             this.btnDatBan.Name = "btnDatBan";
             this.btnDatBan.Size = new System.Drawing.Size(104, 36);
             this.btnDatBan.TabIndex = 9;
             this.btnDatBan.Text = "Đặt Bàn";
             this.btnDatBan.UseVisualStyleBackColor = false;
-            // 
-            // txtYeuCau
-            // 
-            this.txtYeuCau.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtYeuCau.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtYeuCau.Location = new System.Drawing.Point(92, 183);
-            this.txtYeuCau.Multiline = true;
-            this.txtYeuCau.Name = "txtYeuCau";
-            this.txtYeuCau.Size = new System.Drawing.Size(279, 91);
-            this.txtYeuCau.TabIndex = 8;
+            this.btnDatBan.Click += new System.EventHandler(this.btnDatBan_Click);
             // 
             // dtpThoiGian
             // 
@@ -207,11 +183,9 @@ namespace QuanLyNhaHang.UI
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnDatBan;
-        private System.Windows.Forms.TextBox txtYeuCau;
         private System.Windows.Forms.DateTimePicker dtpThoiGian;
         private System.Windows.Forms.NumericUpDown numSoNguoi;
         private System.Windows.Forms.Label label2;

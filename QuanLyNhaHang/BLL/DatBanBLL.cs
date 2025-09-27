@@ -15,7 +15,7 @@ namespace QuanLyNhaHang.BLL
             }
         }
 
-        public static void DatBanMoi(int banId, int userId, DateTime thoiGian, string yeuCau)
+        public static void DatBanMoi(int banId, int userId, DateTime thoiGian)
         {
             using (var db = new Model1())
             {
@@ -26,11 +26,7 @@ namespace QuanLyNhaHang.BLL
                     NgayDat = thoiGian,
                     TrangThai = "Chờ duyệt"
                 };
-                db.DatBan.Add(datBan);
-
-                // Cập nhật trạng thái bàn
-                var ban = db.BanAn.Find(banId);
-                if (ban != null) ban.TrangThai = "Chờ duyệt";
+                db.DatBan.Add(datBan);   // ✅ thêm yêu cầu vào DB
 
                 db.SaveChanges();
             }
@@ -46,5 +42,48 @@ namespace QuanLyNhaHang.BLL
                          .ToList();
             }
         }
+        // Lấy danh sách tất cả đặt bàn cho Admin duyệt
+        public static List<object> GetDanhSachDatBan()
+        {
+            using (var db = new Model1())
+            {
+                var list = db.DatBan
+                             .Select(d => new
+                             {
+                                 d.DatBanID,
+                                 TenBan = d.BanAn.TenBan,
+                                 NguoiDat = d.NguoiDung.HoTen,
+                                 d.NgayDat,
+                                 d.TrangThai
+                             })
+                             .OrderByDescending(d => d.NgayDat)
+                             .ToList<object>();
+
+                return list;
+            }
+        }
+        public static void CapNhatTrangThaiDatBan()
+        {
+            using (var db = new Model1())
+            {
+                var now = DateTime.Now;
+
+                var list = db.DatBan
+                             .Where(d => d.TrangThai == "Đặt trước" && d.NgayDat <= now)
+                             .ToList();
+
+                foreach (var datBan in list)
+                {
+                    datBan.TrangThai = "Đang dùng";
+
+                    var ban = db.BanAn.Find(datBan.BanID);
+                    if (ban != null)
+                        ban.TrangThai = "Đang dùng";
+                }
+
+                db.SaveChanges();
+            }
+        }
+
     }
 }

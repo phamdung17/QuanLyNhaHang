@@ -28,13 +28,12 @@
         /// </summary>
         private System.Windows.Forms.Label lblTenBan;
         private System.Windows.Forms.Label lblTrangThai;
-        private System.Windows.Forms.Button btnChonBan;
 
         private void InitializeComponent()
         {
             this.lblTenBan = new System.Windows.Forms.Label();
             this.lblTrangThai = new System.Windows.Forms.Label();
-            this.btnChonBan = new System.Windows.Forms.Button();
+            this.chkChon = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblTenBan
@@ -50,29 +49,32 @@
             // lblTrangThai
             // 
             this.lblTrangThai.AutoSize = true;
-            this.lblTrangThai.Location = new System.Drawing.Point(10, 35);
+            this.lblTrangThai.Location = new System.Drawing.Point(11, 38);
             this.lblTrangThai.Name = "lblTrangThai";
             this.lblTrangThai.Size = new System.Drawing.Size(35, 13);
             this.lblTrangThai.TabIndex = 1;
             this.lblTrangThai.Text = "Trống";
             // 
-            // btnChonBan
+            // chkChon
             // 
-            this.btnChonBan.BackColor = System.Drawing.Color.Cyan;
-            this.btnChonBan.Location = new System.Drawing.Point(13, 67);
-            this.btnChonBan.Name = "btnChonBan";
-            this.btnChonBan.Size = new System.Drawing.Size(100, 44);
-            this.btnChonBan.TabIndex = 2;
-            this.btnChonBan.Text = "Chọn bàn";
-            this.btnChonBan.UseVisualStyleBackColor = false;
+            this.chkChon.AutoSize = true;
+            this.chkChon.BackColor = System.Drawing.Color.LightYellow;
+            this.chkChon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkChon.Location = new System.Drawing.Point(23, 82);
+            this.chkChon.Name = "chkChon";
+            this.chkChon.Size = new System.Drawing.Size(80, 19);
+            this.chkChon.TabIndex = 2;
+            this.chkChon.Text = "Chọn Bàn";
+            this.chkChon.UseVisualStyleBackColor = false;
+            this.chkChon.CheckedChanged += new System.EventHandler(this.chkChon_CheckedChanged);
             // 
             // UC_BanAn
             // 
             this.BackColor = System.Drawing.Color.LightGreen;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.chkChon);
             this.Controls.Add(this.lblTenBan);
             this.Controls.Add(this.lblTrangThai);
-            this.Controls.Add(this.btnChonBan);
             this.Name = "UC_BanAn";
             this.Size = new System.Drawing.Size(124, 114);
             this.ResumeLayout(false);
@@ -81,5 +83,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.CheckBox chkChon;
     }
 }

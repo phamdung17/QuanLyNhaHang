@@ -63,7 +63,7 @@ namespace QuanLyNhaHang.UI
                         return;
                     }
 
-                    this.Hide();  // Ẩn form Login (có thể quay lại nếu cần)
+                    //this.Hide();  // Ẩn form Login (có thể quay lại nếu cần)
                 }
                 else
                 {
