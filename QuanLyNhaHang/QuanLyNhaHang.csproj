@@ -66,6 +66,7 @@
     <Compile Include="BLL\NguoiDungBLL.cs" />
     <Compile Include="BLL\ThucDonBLL.cs" />
     <Compile Include="DAL\NguoiDungDAL.cs" />
+    <Compile Include="DAL\ThucDonDAL.cs" />
     <Compile Include="Models\BanAn.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\DatBan.cs" />

@@ -96,6 +96,13 @@ namespace QuanLyNhaHang.UI
             }
         }
 
-
+        private void dateTimePicker1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Cho phép nhập số và dấu phân cách thời gian
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ':' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

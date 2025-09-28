@@ -18,30 +18,38 @@ namespace QuanLyNhaHang.UI
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text.Trim();
-            string confirm = txtConfirmPassword.Text.Trim();
-            string fullname = txtFullName.Text.Trim();
-
-
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            try
             {
-                MessageBox.Show("Vui lòng nhập đủ thông tin!");
-                return;
+                string username = txtUsername.Text.Trim();
+                string password = txtPassword.Text.Trim();
+                string confirm = txtConfirmPassword.Text.Trim();
+                string fullname = txtFullName.Text.Trim();
+
+
+
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                {
+                    MessageBox.Show("Vui lòng nhập đủ thông tin!");
+                    return;
+                }
+
+                if (password != confirm)
+                {
+                    MessageBox.Show("Mật khẩu xác nhận không khớp!");
+                    return;
+                }
+
+                string result = bll.Register(username, password, fullname, "Client");
+                MessageBox.Show(result);
+
+                if (result == "Đăng ký thành công!")
+                {
+                    this.Close(); // quay lại form login
+                }
             }
-
-            if (password != confirm)
+            catch (Exception ex)
             {
-                MessageBox.Show("Mật khẩu xác nhận không khớp!");
-                return;
-            }
-
-            string result = bll.Register(username, password, fullname, "Client");
-            MessageBox.Show(result);
-
-            if (result == "Đăng ký thành công!")
-            {
-                this.Close(); // quay lại form login
+                MessageBox.Show("Đã có lỗi xảy ra: " + ex.Message);
             }
         }
 

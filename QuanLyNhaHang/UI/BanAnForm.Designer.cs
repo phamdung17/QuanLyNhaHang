@@ -108,6 +108,7 @@ namespace QuanLyNhaHang.UI
             this.dtpThoiGian.Size = new System.Drawing.Size(200, 25);
             this.dtpThoiGian.TabIndex = 7;
             this.dtpThoiGian.Value = new System.DateTime(2025, 9, 26, 14, 54, 58, 700);
+            this.dtpThoiGian.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dateTimePicker1_KeyPress);
             // 
             // numSoNguoi
             // 

@@ -32,9 +32,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.chkTrangThai = new System.Windows.Forms.CheckBox();
+            this.cboDonViTinh = new System.Windows.Forms.ComboBox();
+            this.txtDonGia = new System.Windows.Forms.TextBox();
+            this.txtTenMon = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,7 +45,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -56,7 +56,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.Navy;
-            this.label3.Location = new System.Drawing.Point(381, 9);
+            this.label3.Location = new System.Drawing.Point(127, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(193, 32);
             this.label3.TabIndex = 19;
@@ -67,6 +67,7 @@
             // 
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -78,16 +79,17 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(437, 507);
             this.dataGridView1.TabIndex = 10;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.chkTrangThai);
+            this.panel1.Controls.Add(this.cboDonViTinh);
+            this.panel1.Controls.Add(this.txtDonGia);
+            this.panel1.Controls.Add(this.txtTenMon);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label2);
@@ -98,42 +100,54 @@
             this.panel1.Size = new System.Drawing.Size(379, 375);
             this.panel1.TabIndex = 20;
             // 
-            // comboBox1
+            // chkTrangThai
             // 
-            this.comboBox1.BackColor = System.Drawing.Color.White;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.chkTrangThai.AutoSize = true;
+            this.chkTrangThai.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkTrangThai.ForeColor = System.Drawing.Color.MediumBlue;
+            this.chkTrangThai.Location = new System.Drawing.Point(133, 128);
+            this.chkTrangThai.Name = "chkTrangThai";
+            this.chkTrangThai.Size = new System.Drawing.Size(77, 20);
+            this.chkTrangThai.TabIndex = 7;
+            this.chkTrangThai.Text = "Còn Bán";
+            this.chkTrangThai.UseVisualStyleBackColor = true;
+            // 
+            // cboDonViTinh
+            // 
+            this.cboDonViTinh.BackColor = System.Drawing.Color.White;
+            this.cboDonViTinh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDonViTinh.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cboDonViTinh.FormattingEnabled = true;
+            this.cboDonViTinh.Items.AddRange(new object[] {
             "Cái",
             "Phần",
             "Ly",
             "Kg"});
-            this.comboBox1.Location = new System.Drawing.Point(130, 93);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(213, 25);
-            this.comboBox1.TabIndex = 6;
+            this.cboDonViTinh.Location = new System.Drawing.Point(130, 93);
+            this.cboDonViTinh.Name = "cboDonViTinh";
+            this.cboDonViTinh.Size = new System.Drawing.Size(213, 25);
+            this.cboDonViTinh.TabIndex = 6;
             // 
-            // textBox2
+            // txtDonGia
             // 
-            this.textBox2.BackColor = System.Drawing.Color.White;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox2.Location = new System.Drawing.Point(130, 62);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(200, 25);
-            this.textBox2.TabIndex = 5;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtDonGia.BackColor = System.Drawing.Color.White;
+            this.txtDonGia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDonGia.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtDonGia.Location = new System.Drawing.Point(130, 62);
+            this.txtDonGia.Name = "txtDonGia";
+            this.txtDonGia.Size = new System.Drawing.Size(200, 25);
+            this.txtDonGia.TabIndex = 5;
+            this.txtDonGia.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox1
+            // txtTenMon
             // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox1.Location = new System.Drawing.Point(130, 27);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 25);
-            this.textBox1.TabIndex = 4;
+            this.txtTenMon.BackColor = System.Drawing.Color.White;
+            this.txtTenMon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTenMon.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtTenMon.Location = new System.Drawing.Point(130, 27);
+            this.txtTenMon.Name = "txtTenMon";
+            this.txtTenMon.Size = new System.Drawing.Size(200, 25);
+            this.txtTenMon.TabIndex = 4;
             // 
             // label5
             // 
@@ -208,6 +222,7 @@
             this.button2.TabIndex = 25;
             this.button2.Text = "Sửa";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // button1
             // 
@@ -223,6 +238,7 @@
             this.button1.TabIndex = 24;
             this.button1.Text = "Thêm";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnThem_Click);
             // 
             // button4
             // 
@@ -238,6 +254,7 @@
             this.button4.TabIndex = 23;
             this.button4.Text = "Refresh";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // button3
             // 
@@ -253,18 +270,7 @@
             this.button3.TabIndex = 22;
             this.button3.Text = "Xóa";
             this.button3.UseVisualStyleBackColor = false;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.ForeColor = System.Drawing.Color.MediumBlue;
-            this.checkBox1.Location = new System.Drawing.Point(133, 128);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(108, 27);
-            this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Còn Bán";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // QLThucDonForm
             // 
@@ -277,6 +283,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dataGridView1);
             this.Name = "QLThucDonForm";
+            this.Load += new System.EventHandler(this.QLThucDonForm_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -290,9 +297,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox cboDonViTinh;
+        private System.Windows.Forms.TextBox txtDonGia;
+        private System.Windows.Forms.TextBox txtTenMon;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
@@ -302,6 +309,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkTrangThai;
     }
 }

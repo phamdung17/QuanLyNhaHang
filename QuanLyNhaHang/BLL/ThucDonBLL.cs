@@ -1,11 +1,34 @@
 ﻿using QuanLyNhaHang.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace QuanLyNhaHang.BLL
 {
     public class ThucDonBLL
     {
+        // Kết nối DAL
+        private DAL.ThucDonDAL dal = new DAL.ThucDonDAL();
+        public List<ThucDon> GetAll()
+        {
+            return dal.GetAll();
+        }
+        // Thêm món ăn
+        public string Add(string tenMon, decimal donGia, string donViTinh, bool trangThai)
+        {
+            return dal.Add(tenMon, donGia, donViTinh, trangThai);
+        }
+        // Sửa món ăn
+        public string Update(int id, string tenMon, decimal donGia, string donViTinh, bool trangThai)
+        {
+            return dal.Update(id, tenMon, donGia, donViTinh, trangThai);
+        }
+        // Xóa món ăn
+        public string Delete(int id)
+        {
+            return dal.Delete(id);
+        }
+        // Lấy danh sách món ăn để hiển thị menu (có ảnh & loại món)
         public static List<ThucDonViewModel> GetMenu()
         {
             using (var db = new Model1()) // tên DbContext của bạn

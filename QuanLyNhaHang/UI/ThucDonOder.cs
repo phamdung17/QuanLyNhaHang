@@ -172,6 +172,11 @@ namespace QuanLyNhaHang.UI
             InitGioHangGrid();
             RefreshCartUI();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            LoadThucDon();
+        }
     }
 }
        
