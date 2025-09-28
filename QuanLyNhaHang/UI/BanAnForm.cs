@@ -74,6 +74,7 @@ namespace QuanLyNhaHang.UI
                         daChonBan = true;
                         int banId = uc.BanID;
                         DatBanBLL.DatBanMoi(banId, userId, thoiGian);
+                       
                     }
                 }
 
@@ -95,6 +96,7 @@ namespace QuanLyNhaHang.UI
                                 "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void dateTimePicker1_KeyPress(object sender, KeyPressEventArgs e)
         {

@@ -1,8 +1,5 @@
 ﻿using QuanLyNhaHang.BLL;
-using QuanLyNhaHang.Models;
 using System;
-using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace QuanLyNhaHang.UI
@@ -14,9 +11,15 @@ namespace QuanLyNhaHang.UI
         public DuyetBanAnForm()
         {
             InitializeComponent();
-            this.Load += DuyetBanAnForm_Load;  // Gắn sự kiện Load
+            this.Load += DuyetBanAnForm_Load;
         }
 
+        private void DuyetBanAnForm_Load(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        // Load danh sách đặt bàn
         private void LoadData()
         {
             dataGridView1.DataSource = DatBanBLL.GetDanhSachDatBan();
@@ -29,72 +32,39 @@ namespace QuanLyNhaHang.UI
                 dataGridView1.Columns["NgayDat"].HeaderText = "Thời gian đặt";
                 dataGridView1.Columns["TrangThai"].HeaderText = "Trạng thái";
             }
+
+            datBanId = 0;
         }
 
-        private void DuyetBanAnForm_Load(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
-        // Duyệt đặt bàn => đổi trạng thái bàn, xóa record khỏi DatBan
-        private void DuyetDatBan(int datBanId)
-        {
-            using (var db = new Model1())
-            {
-                var datBan = db.DatBan.Find(datBanId);
-                if (datBan != null)
-                {
-                    var ban = db.BanAn.Find(datBan.BanID);
-                    if (ban != null)
-                        ban.TrangThai = "Đặt trước";
-
-                    db.DatBan.Remove(datBan); // xóa yêu cầu khỏi bảng DatBan
-                    db.SaveChanges();
-                }
-            }
-        }
-
-        // Hủy đặt bàn => bàn thành "Trống", xóa record khỏi DatBan
-        private void HuyDatBan(int datBanId)
-        {
-            using (var db = new Model1())
-            {
-                var datBan = db.DatBan.Find(datBanId);
-                if (datBan != null)
-                {
-                    var ban = db.BanAn.Find(datBan.BanID);
-                    if (ban != null)
-                        ban.TrangThai = "Trống";
-
-                    db.DatBan.Remove(datBan); // xóa yêu cầu
-                    db.SaveChanges();
-                }
-            }
-        }
-
-        // chọn dòng trong datagridview
+        // Chọn dòng trong datagridview
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                datBanId = Convert.ToInt32(row.Cells["DatBanID"].Value);
+                datBanId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["DatBanID"].Value);
             }
         }
 
-        // nút Load lại
+        // Nút Load lại
         private void btnLoad_Click(object sender, EventArgs e)
         {
             LoadData();
         }
 
-        // nút Duyệt
-        private void button1_Click(object sender, EventArgs e)
+        // ✅ Nút Duyệt (Admin duyệt yêu cầu)
+        private void btnDuyet_Click(object sender, EventArgs e)
         {
             if (datBanId > 0)
             {
-                DuyetDatBan(datBanId);
-                LoadData();
+                if (DatBanBLL.DuyetDatBan(datBanId))
+                {
+                    MessageBox.Show("Duyệt thành công!");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Không thể duyệt yêu cầu này!");
+                }
             }
             else
             {
@@ -102,13 +72,41 @@ namespace QuanLyNhaHang.UI
             }
         }
 
-        // nút Hủy
-        private void button2_Click(object sender, EventArgs e)
+        // ✅ Nút Hủy (Admin hủy yêu cầu)
+        private void btnHuy_Click(object sender, EventArgs e)
         {
             if (datBanId > 0)
             {
-                HuyDatBan(datBanId);
-                LoadData();
+                if (DatBanBLL.HuyDatBan(datBanId))
+                {
+                    MessageBox.Show("Hủy thành công!");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Không thể hủy yêu cầu này!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn yêu cầu đặt bàn!");
+            }
+        }
+
+        // ✅ Nút Xác nhận (Khách đến, đổi bàn sang Đang dùng)
+        private void btnXacNhan_Click(object sender, EventArgs e)
+        {
+            if (datBanId > 0)
+            {
+                if (DatBanBLL.XacNhanDatBan(datBanId))
+                {
+                    MessageBox.Show("Xác nhận thành công!");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Không thể xác nhận!");
+                }
             }
             else
             {

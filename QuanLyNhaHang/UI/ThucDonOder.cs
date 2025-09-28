@@ -138,27 +138,39 @@ namespace QuanLyNhaHang.UI
 
         private void btnDatMon_Click(object sender, EventArgs e)
         {
-            if (gioHang.IsEmpty())
-            {
-                MessageBox.Show("Giỏ hàng đang trống!", "Cảnh báo",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             try
             {
-                // TODO: Lưu hóa đơn qua HoaDonBLL
-                // HoaDonBLL.TaoHoaDon(currentUser.UserId, gioHang.GetItems());
+                var ban = HoaDonBLL.GetBanDaDuyet(currentUser.UserID);
+                if (ban == null)
+                {
+                    MessageBox.Show("Bạn cần đặt bàn và chờ Admin duyệt trước khi gọi món!",
+                                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                MessageBox.Show("Đặt món thành công!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var hd = HoaDonBLL.GetOrCreateHoaDon(ban.BanID, currentUser.UserID);
 
+                // Lấy items từ gioHang (không phụ thuộc DataGridView)
+                var items = gioHang.GetItems(); // List<GioHangItem>
+                if (items == null || items.Count == 0)
+                {
+                    MessageBox.Show("Giỏ hàng trống!");
+                    return;
+                }
+
+                foreach (var item in items)
+                {
+                    if (item.SoLuong <= 0) continue;
+                    HoaDonBLL.ThemMon(hd.HoaDonID, item.MonID, item.SoLuong);
+                }
+
+                MessageBox.Show("Đặt món thành công!");
                 gioHang.Clear();
                 RefreshCartUI();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi đặt món: " + ex.Message, "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
 

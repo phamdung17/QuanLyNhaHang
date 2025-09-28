@@ -69,31 +69,6 @@ namespace QuanLyNhaHang.BLL
                 db.SaveChanges();
             }
         }
-        public static void CapNhatTrangThaiTuDong()
-        {
-            using (var db = new Model1())
-            {
-                var now = DateTime.Now;
-
-                // lấy các đặt bàn đến giờ sử dụng
-                var list = db.DatBan
-                             .Where(d => d.TrangThai == "Đặt trước" && d.NgayDat <= now)
-                             .ToList();
-
-                foreach (var datBan in list)
-                {
-                    datBan.TrangThai = "Đang dùng";
-
-                    var ban = db.BanAn.Find(datBan.BanID);
-                    if (ban != null)
-                        ban.TrangThai = "Đang dùng";
-                }
-
-                db.SaveChanges();
-            }
-        }
-
-
-
+        
     }
 }
