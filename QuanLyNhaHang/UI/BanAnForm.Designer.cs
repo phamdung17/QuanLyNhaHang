@@ -30,6 +30,7 @@ namespace QuanLyNhaHang.UI
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BanAnForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -67,7 +68,7 @@ namespace QuanLyNhaHang.UI
             this.label5.ForeColor = System.Drawing.Color.DarkBlue;
             this.label5.Location = new System.Drawing.Point(14, 129);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 20);
+            this.label5.Size = new System.Drawing.Size(93, 25);
             this.label5.TabIndex = 12;
             this.label5.Text = "Thời Gian";
             // 
@@ -78,7 +79,7 @@ namespace QuanLyNhaHang.UI
             this.label4.ForeColor = System.Drawing.Color.DarkBlue;
             this.label4.Location = new System.Drawing.Point(14, 56);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(72, 20);
+            this.label4.Size = new System.Drawing.Size(90, 25);
             this.label4.TabIndex = 11;
             this.label4.Text = "Số Người";
             // 
@@ -105,7 +106,7 @@ namespace QuanLyNhaHang.UI
             this.dtpThoiGian.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpThoiGian.Location = new System.Drawing.Point(92, 125);
             this.dtpThoiGian.Name = "dtpThoiGian";
-            this.dtpThoiGian.Size = new System.Drawing.Size(200, 25);
+            this.dtpThoiGian.Size = new System.Drawing.Size(200, 30);
             this.dtpThoiGian.TabIndex = 7;
             this.dtpThoiGian.Value = new System.DateTime(2025, 9, 26, 14, 54, 58, 700);
             this.dtpThoiGian.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dateTimePicker1_KeyPress);
@@ -125,7 +126,7 @@ namespace QuanLyNhaHang.UI
             0,
             0});
             this.numSoNguoi.Name = "numSoNguoi";
-            this.numSoNguoi.Size = new System.Drawing.Size(120, 25);
+            this.numSoNguoi.Size = new System.Drawing.Size(120, 30);
             this.numSoNguoi.TabIndex = 6;
             this.numSoNguoi.Value = new decimal(new int[] {
             1,
@@ -140,7 +141,7 @@ namespace QuanLyNhaHang.UI
             this.label2.ForeColor = System.Drawing.Color.DarkBlue;
             this.label2.Location = new System.Drawing.Point(150, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(153, 30);
+            this.label2.Size = new System.Drawing.Size(190, 37);
             this.label2.TabIndex = 12;
             this.label2.Text = "Sơ Đồ Bàn Ăn";
             // 
@@ -157,7 +158,7 @@ namespace QuanLyNhaHang.UI
             // 
             // BanAnForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
@@ -167,6 +168,7 @@ namespace QuanLyNhaHang.UI
             this.Controls.Add(this.flowBanAn);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "BanAnForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

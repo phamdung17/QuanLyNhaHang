@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QLThucDonForm));
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -56,9 +57,10 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.Navy;
-            this.label3.Location = new System.Drawing.Point(127, 9);
+            this.label3.Location = new System.Drawing.Point(169, 11);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(193, 32);
+            this.label3.Size = new System.Drawing.Size(238, 41);
             this.label3.TabIndex = 19;
             this.label3.Text = "Danh Sách Món";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -69,15 +71,17 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.GridColor = System.Drawing.Color.LightBlue;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 45);
+            this.dataGridView1.Location = new System.Drawing.Point(16, 55);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(437, 507);
+            this.dataGridView1.Size = new System.Drawing.Size(583, 624);
             this.dataGridView1.TabIndex = 10;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
@@ -94,10 +98,11 @@
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(465, 45);
+            this.panel1.Location = new System.Drawing.Point(620, 55);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(15);
-            this.panel1.Size = new System.Drawing.Size(379, 375);
+            this.panel1.Padding = new System.Windows.Forms.Padding(20, 18, 20, 18);
+            this.panel1.Size = new System.Drawing.Size(505, 461);
             this.panel1.TabIndex = 20;
             // 
             // chkTrangThai
@@ -105,9 +110,10 @@
             this.chkTrangThai.AutoSize = true;
             this.chkTrangThai.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkTrangThai.ForeColor = System.Drawing.Color.MediumBlue;
-            this.chkTrangThai.Location = new System.Drawing.Point(133, 128);
+            this.chkTrangThai.Location = new System.Drawing.Point(177, 158);
+            this.chkTrangThai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkTrangThai.Name = "chkTrangThai";
-            this.chkTrangThai.Size = new System.Drawing.Size(77, 20);
+            this.chkTrangThai.Size = new System.Drawing.Size(96, 24);
             this.chkTrangThai.TabIndex = 7;
             this.chkTrangThai.Text = "Còn Bán";
             this.chkTrangThai.UseVisualStyleBackColor = true;
@@ -123,9 +129,10 @@
             "Phần",
             "Ly",
             "Kg"});
-            this.cboDonViTinh.Location = new System.Drawing.Point(130, 93);
+            this.cboDonViTinh.Location = new System.Drawing.Point(173, 114);
+            this.cboDonViTinh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cboDonViTinh.Name = "cboDonViTinh";
-            this.cboDonViTinh.Size = new System.Drawing.Size(213, 25);
+            this.cboDonViTinh.Size = new System.Drawing.Size(283, 31);
             this.cboDonViTinh.TabIndex = 6;
             // 
             // txtDonGia
@@ -133,9 +140,10 @@
             this.txtDonGia.BackColor = System.Drawing.Color.White;
             this.txtDonGia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDonGia.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtDonGia.Location = new System.Drawing.Point(130, 62);
+            this.txtDonGia.Location = new System.Drawing.Point(173, 76);
+            this.txtDonGia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtDonGia.Name = "txtDonGia";
-            this.txtDonGia.Size = new System.Drawing.Size(200, 25);
+            this.txtDonGia.Size = new System.Drawing.Size(266, 30);
             this.txtDonGia.TabIndex = 5;
             this.txtDonGia.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -144,9 +152,10 @@
             this.txtTenMon.BackColor = System.Drawing.Color.White;
             this.txtTenMon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTenMon.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtTenMon.Location = new System.Drawing.Point(130, 27);
+            this.txtTenMon.Location = new System.Drawing.Point(173, 33);
+            this.txtTenMon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtTenMon.Name = "txtTenMon";
-            this.txtTenMon.Size = new System.Drawing.Size(200, 25);
+            this.txtTenMon.Size = new System.Drawing.Size(266, 30);
             this.txtTenMon.TabIndex = 4;
             // 
             // label5
@@ -154,9 +163,10 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label5.ForeColor = System.Drawing.Color.Navy;
-            this.label5.Location = new System.Drawing.Point(43, 131);
+            this.label5.Location = new System.Drawing.Point(57, 161);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(84, 19);
+            this.label5.Size = new System.Drawing.Size(102, 23);
             this.label5.TabIndex = 3;
             this.label5.Text = "Trạng thái: ";
             // 
@@ -165,9 +175,10 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.Color.Navy;
-            this.label4.Location = new System.Drawing.Point(43, 88);
+            this.label4.Location = new System.Drawing.Point(57, 108);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 19);
+            this.label4.Size = new System.Drawing.Size(105, 23);
             this.label4.TabIndex = 2;
             this.label4.Text = "Đơn vị tính:";
             // 
@@ -176,9 +187,10 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.Color.Navy;
-            this.label2.Location = new System.Drawing.Point(43, 53);
+            this.label2.Location = new System.Drawing.Point(57, 65);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 19);
+            this.label2.Size = new System.Drawing.Size(79, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = "Đơn giá:";
             // 
@@ -187,9 +199,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.Navy;
-            this.label1.Location = new System.Drawing.Point(43, 27);
+            this.label1.Location = new System.Drawing.Point(57, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 19);
+            this.label1.Size = new System.Drawing.Size(88, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tên món: ";
             // 
@@ -202,10 +215,11 @@
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.button3);
-            this.panel2.Location = new System.Drawing.Point(463, 426);
+            this.panel2.Location = new System.Drawing.Point(617, 524);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(15);
-            this.panel2.Size = new System.Drawing.Size(380, 126);
+            this.panel2.Padding = new System.Windows.Forms.Padding(20, 18, 20, 18);
+            this.panel2.Size = new System.Drawing.Size(506, 155);
             this.panel2.TabIndex = 21;
             // 
             // button2
@@ -216,9 +230,10 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(212, 26);
+            this.button2.Location = new System.Drawing.Point(283, 32);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 35);
+            this.button2.Size = new System.Drawing.Size(160, 43);
             this.button2.TabIndex = 25;
             this.button2.Text = "Sửa";
             this.button2.UseVisualStyleBackColor = false;
@@ -232,9 +247,10 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(48, 26);
+            this.button1.Location = new System.Drawing.Point(64, 32);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 35);
+            this.button1.Size = new System.Drawing.Size(160, 43);
             this.button1.TabIndex = 24;
             this.button1.Text = "Thêm";
             this.button1.UseVisualStyleBackColor = false;
@@ -248,9 +264,10 @@
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(212, 76);
+            this.button4.Location = new System.Drawing.Point(283, 94);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(120, 35);
+            this.button4.Size = new System.Drawing.Size(160, 43);
             this.button4.TabIndex = 23;
             this.button4.Text = "Refresh";
             this.button4.UseVisualStyleBackColor = false;
@@ -264,9 +281,10 @@
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(48, 76);
+            this.button3.Location = new System.Drawing.Point(64, 94);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(120, 35);
+            this.button3.Size = new System.Drawing.Size(160, 43);
             this.button3.TabIndex = 22;
             this.button3.Text = "Xóa";
             this.button3.UseVisualStyleBackColor = false;
@@ -274,14 +292,16 @@
             // 
             // QLThucDonForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(937, 574);
+            this.ClientSize = new System.Drawing.Size(1249, 706);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dataGridView1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "QLThucDonForm";
             this.Load += new System.EventHandler(this.QLThucDonForm_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

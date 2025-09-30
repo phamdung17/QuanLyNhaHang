@@ -31,6 +31,7 @@ namespace QuanLyNhaHang.UI
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DuyetBanAnForm));
             this.label3 = new System.Windows.Forms.Label();
             this.bntHuy = new System.Windows.Forms.Button();
             this.bntDuyet = new System.Windows.Forms.Button();
@@ -49,7 +50,7 @@ namespace QuanLyNhaHang.UI
             this.label3.ForeColor = System.Drawing.Color.Navy;
             this.label3.Location = new System.Drawing.Point(386, 20);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(183, 32);
+            this.label3.Size = new System.Drawing.Size(226, 41);
             this.label3.TabIndex = 19;
             this.label3.Text = "Danh Sách Bàn";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -102,6 +103,7 @@ namespace QuanLyNhaHang.UI
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(757, 292);
             this.dataGridView1.TabIndex = 10;
@@ -156,7 +158,7 @@ namespace QuanLyNhaHang.UI
             // 
             // DuyetBanAnForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 574);
@@ -169,6 +171,7 @@ namespace QuanLyNhaHang.UI
             this.Controls.Add(this.dataGridView1);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "DuyetBanAnForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

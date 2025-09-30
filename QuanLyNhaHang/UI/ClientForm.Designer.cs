@@ -22,18 +22,18 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.panelMain = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panelMain = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -79,25 +79,12 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.ForestGreen;
-            this.label1.Location = new System.Drawing.Point(90, 120);
+            this.label1.Location = new System.Drawing.Point(30, 132);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 20);
+            this.label1.Size = new System.Drawing.Size(43, 25);
             this.label1.TabIndex = 1;
             this.label1.Text = "Tên";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pictureBox1.Image = global::QuanLyNhaHang.Properties.Resources.images__1_;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(75, 20);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 84);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // button4
             // 
@@ -170,18 +157,6 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.btnThucDon_Click);
             // 
-            // panelMain
-            // 
-            this.panelMain.BackColor = System.Drawing.Color.LightCyan;
-            this.panelMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelMain.Image = ((System.Drawing.Image)(resources.GetObject("panelMain.Image")));
-            this.panelMain.Location = new System.Drawing.Point(250, 78);
-            this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(953, 613);
-            this.panelMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.panelMain.TabIndex = 1;
-            this.panelMain.TabStop = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -190,7 +165,7 @@
             this.label2.ForeColor = System.Drawing.Color.Orange;
             this.label2.Location = new System.Drawing.Point(254, 20);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(467, 48);
+            this.label2.Size = new System.Drawing.Size(589, 61);
             this.label2.TabIndex = 4;
             this.label2.Text = "Nhà hàng Thịnh Phát";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -204,9 +179,34 @@
             this.panel1.Size = new System.Drawing.Size(952, 87);
             this.panel1.TabIndex = 5;
             // 
+            // panelMain
+            // 
+            this.panelMain.BackColor = System.Drawing.Color.LightCyan;
+            this.panelMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelMain.Image = ((System.Drawing.Image)(resources.GetObject("panelMain.Image")));
+            this.panelMain.Location = new System.Drawing.Point(250, 78);
+            this.panelMain.Name = "panelMain";
+            this.panelMain.Size = new System.Drawing.Size(953, 613);
+            this.panelMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.panelMain.TabIndex = 1;
+            this.panelMain.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.pictureBox1.Image = global::QuanLyNhaHang.Properties.Resources.logo_nha_hang_thinh;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(35, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(172, 123);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // ClientForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1203, 691);
@@ -215,17 +215,17 @@
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "ClientForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Client - Nhà Hàng Thịnh Phát";
-         
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.panelMain)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

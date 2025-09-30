@@ -55,16 +55,7 @@ namespace QuanLyNhaHang.BLL
         // --- Tùy bạn chọn 1 trong 2 cách: gán theo MonID (ở đây) hoặc map theo tên/DB ---
         private static string GetImageForMon(int monId)
         {
-            // trả về tên file trong thư mục Images (ví dụ: "anh1.jpg")
-            switch (monId)
-            {
-                case 1: return "anh1.jpg";
-                case 2: return "anh2.jpg";
-                case 3: return "anh3.jpg";
-                case 4: return "anh4.jpg";
-                case 5: return "anh5.jmg";
-                default: return "no_image.jpg";
-            }
+            return (monId >= 1 && monId <= 12) ? $"anh{monId}.jpg" : "no_image.png";
         }
 
         private static string GetLoaiForMon(int monId)

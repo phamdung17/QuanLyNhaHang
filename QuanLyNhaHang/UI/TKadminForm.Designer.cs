@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TKadminForm));
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -155,7 +156,7 @@
             this.txtFullName.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtFullName.Location = new System.Drawing.Point(159, 104);
             this.txtFullName.Name = "txtFullName";
-            this.txtFullName.Size = new System.Drawing.Size(200, 25);
+            this.txtFullName.Size = new System.Drawing.Size(200, 30);
             this.txtFullName.TabIndex = 9;
             // 
             // label6
@@ -165,7 +166,7 @@
             this.label6.ForeColor = System.Drawing.Color.Navy;
             this.label6.Location = new System.Drawing.Point(46, 104);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(58, 19);
+            this.label6.Size = new System.Drawing.Size(69, 23);
             this.label6.TabIndex = 8;
             this.label6.Text = " Họ tên";
             // 
@@ -180,7 +181,7 @@
             "Client"});
             this.cboRole.Location = new System.Drawing.Point(117, 166);
             this.cboRole.Name = "cboRole";
-            this.cboRole.Size = new System.Drawing.Size(213, 25);
+            this.cboRole.Size = new System.Drawing.Size(213, 31);
             this.cboRole.TabIndex = 6;
             // 
             // txtPassword
@@ -190,10 +191,8 @@
             this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtPassword.Location = new System.Drawing.Point(158, 67);
             this.txtPassword.Name = "txtPassword";
-            //this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(200, 25);
+            this.txtPassword.Size = new System.Drawing.Size(200, 30);
             this.txtPassword.TabIndex = 5;
-            //this.txtPassword.UseSystemPasswordChar = true;
             // 
             // txtUsername
             // 
@@ -202,7 +201,7 @@
             this.txtUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtUsername.Location = new System.Drawing.Point(159, 27);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(200, 25);
+            this.txtUsername.Size = new System.Drawing.Size(200, 30);
             this.txtUsername.TabIndex = 4;
             // 
             // label4
@@ -212,7 +211,7 @@
             this.label4.ForeColor = System.Drawing.Color.Navy;
             this.label4.Location = new System.Drawing.Point(43, 172);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 19);
+            this.label4.Size = new System.Drawing.Size(73, 23);
             this.label4.TabIndex = 2;
             this.label4.Text = "Vai trò: ";
             // 
@@ -223,7 +222,7 @@
             this.label2.ForeColor = System.Drawing.Color.Navy;
             this.label2.Location = new System.Drawing.Point(46, 67);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 19);
+            this.label2.Size = new System.Drawing.Size(101, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = " Mật khẩu: ";
             // 
@@ -234,7 +233,7 @@
             this.label1.ForeColor = System.Drawing.Color.Navy;
             this.label1.Location = new System.Drawing.Point(43, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 19);
+            this.label1.Size = new System.Drawing.Size(133, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tên đăng nhập:";
             // 
@@ -246,7 +245,7 @@
             this.label3.ForeColor = System.Drawing.Color.Navy;
             this.label3.Location = new System.Drawing.Point(102, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(259, 32);
+            this.label3.Size = new System.Drawing.Size(318, 41);
             this.label3.TabIndex = 23;
             this.label3.Text = "Danh Sách Tài Khoản ";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -257,14 +256,15 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.GridColor = System.Drawing.Color.LightBlue;
             this.dataGridView1.Location = new System.Drawing.Point(38, 50);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(437, 507);
             this.dataGridView1.TabIndex = 22;
@@ -272,7 +272,7 @@
             // 
             // TKadminForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 574);
@@ -282,6 +282,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TKadminForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

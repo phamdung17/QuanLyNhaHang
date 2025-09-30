@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThucDonOder));
             this.btnDatMon = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.flowThucDon = new System.Windows.Forms.FlowLayoutPanel();
@@ -67,7 +68,7 @@
             this.label2.ForeColor = System.Drawing.Color.DarkBlue;
             this.label2.Location = new System.Drawing.Point(647, 5);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 30);
+            this.label2.Size = new System.Drawing.Size(137, 37);
             this.label2.TabIndex = 15;
             this.label2.Text = "Giỏ Hàng";
             // 
@@ -93,30 +94,35 @@
             this.ThanhTien});
             this.dgvGioHang.Location = new System.Drawing.Point(451, 38);
             this.dgvGioHang.Name = "dgvGioHang";
+            this.dgvGioHang.RowHeadersWidth = 51;
             this.dgvGioHang.Size = new System.Drawing.Size(474, 340);
             this.dgvGioHang.TabIndex = 15;
             // 
             // TenMon
             // 
             this.TenMon.HeaderText = "Tên Món";
+            this.TenMon.MinimumWidth = 6;
             this.TenMon.Name = "TenMon";
             this.TenMon.ReadOnly = true;
             // 
             // DonGia
             // 
             this.DonGia.HeaderText = "Đơn Giá";
+            this.DonGia.MinimumWidth = 6;
             this.DonGia.Name = "DonGia";
             this.DonGia.ReadOnly = true;
             // 
             // SoLuong
             // 
             this.SoLuong.HeaderText = "Số Lượng";
+            this.SoLuong.MinimumWidth = 6;
             this.SoLuong.Name = "SoLuong";
             this.SoLuong.ReadOnly = true;
             // 
             // ThanhTien
             // 
             this.ThanhTien.HeaderText = "Thành Tiền";
+            this.ThanhTien.MinimumWidth = 6;
             this.ThanhTien.Name = "ThanhTien";
             this.ThanhTien.ReadOnly = true;
             // 
@@ -142,7 +148,7 @@
             this.label1.ForeColor = System.Drawing.Color.Navy;
             this.label1.Location = new System.Drawing.Point(609, 405);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 19);
+            this.label1.Size = new System.Drawing.Size(90, 23);
             this.label1.TabIndex = 17;
             this.label1.Text = "Tổng Tiền";
             // 
@@ -152,7 +158,7 @@
             this.txtTongTien.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTongTien.Location = new System.Drawing.Point(690, 402);
             this.txtTongTien.Name = "txtTongTien";
-            this.txtTongTien.Size = new System.Drawing.Size(222, 22);
+            this.txtTongTien.Size = new System.Drawing.Size(222, 26);
             this.txtTongTien.TabIndex = 18;
             // 
             // button4
@@ -193,6 +199,7 @@
             this.Controls.Add(this.dgvGioHang);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.flowThucDon);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ThucDonOder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ThucDonOder";
