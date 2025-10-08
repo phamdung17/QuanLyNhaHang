@@ -34,37 +34,18 @@ namespace QuanLyNhaHang.UI
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BaoCaoDTForm));
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.button1 = new System.Windows.Forms.Button();
             this.entityCommand1 = new System.Data.Entity.Core.EntityClient.EntityCommand();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblTongDoanhThu = new System.Windows.Forms.TextBox();
+            this.btnTheoThang = new System.Windows.Forms.Button();
+            this.btnTheoQuy = new System.Windows.Forms.Button();
+            this.btnTheoNam = new System.Windows.Forms.Button();
+            this.dtpDenNgay = new System.Windows.Forms.DateTimePicker();
+            this.dtpTuNgay = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.dateTimePicker1.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(110, 50);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(160, 32);
-            this.dateTimePicker1.TabIndex = 0;
-            this.dateTimePicker1.Value = new System.DateTime(2025, 8, 26, 16, 13, 48, 179);
-            // 
-            // dateTimePicker2
-            // 
-            this.dateTimePicker2.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.dateTimePicker2.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.Location = new System.Drawing.Point(320, 50);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(160, 32);
-            this.dateTimePicker2.TabIndex = 1;
-            this.dateTimePicker2.Value = new System.DateTime(2025, 9, 26, 16, 13, 48, 180);
             // 
             // button1
             // 
@@ -74,12 +55,13 @@ namespace QuanLyNhaHang.UI
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(506, 44);
+            this.button1.Location = new System.Drawing.Point(506, 74);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(140, 40);
             this.button1.TabIndex = 2;
             this.button1.Text = "Thống Kê";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnThongKe_Click);
             // 
             // entityCommand1
             // 
@@ -105,7 +87,7 @@ namespace QuanLyNhaHang.UI
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(50, 100);
+            this.chart1.Location = new System.Drawing.Point(50, 130);
             this.chart1.Name = "chart1";
             series1.BackSecondaryColor = System.Drawing.Color.Transparent;
             series1.BorderColor = System.Drawing.Color.RoyalBlue;
@@ -129,39 +111,97 @@ namespace QuanLyNhaHang.UI
             this.label1.ForeColor = System.Drawing.Color.Navy;
             this.label1.Location = new System.Drawing.Point(474, 524);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(205, 32);
+            this.label1.Size = new System.Drawing.Size(162, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "Tổng Doanh Thu";
             // 
-            // textBox1
+            // lblTongDoanhThu
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.textBox1.BackColor = System.Drawing.Color.LightBlue;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.textBox1.ForeColor = System.Drawing.Color.DarkBlue;
-            this.textBox1.Location = new System.Drawing.Point(642, 520);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.textBox1.Size = new System.Drawing.Size(200, 34);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.Text = "0 VNĐ";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.lblTongDoanhThu.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.lblTongDoanhThu.BackColor = System.Drawing.Color.LightBlue;
+            this.lblTongDoanhThu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblTongDoanhThu.Enabled = false;
+            this.lblTongDoanhThu.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTongDoanhThu.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblTongDoanhThu.Location = new System.Drawing.Point(685, 524);
+            this.lblTongDoanhThu.Name = "lblTongDoanhThu";
+            this.lblTongDoanhThu.ReadOnly = true;
+            this.lblTongDoanhThu.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblTongDoanhThu.Size = new System.Drawing.Size(200, 29);
+            this.lblTongDoanhThu.TabIndex = 5;
+            this.lblTongDoanhThu.Text = "0 VNĐ";
+            this.lblTongDoanhThu.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // btnTheoThang
+            // 
+            this.btnTheoThang.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.btnTheoThang.Location = new System.Drawing.Point(81, 12);
+            this.btnTheoThang.Name = "btnTheoThang";
+            this.btnTheoThang.Size = new System.Drawing.Size(75, 29);
+            this.btnTheoThang.TabIndex = 7;
+            this.btnTheoThang.Text = "Tháng";
+            this.btnTheoThang.UseVisualStyleBackColor = false;
+            this.btnTheoThang.Click += new System.EventHandler(this.btnTheoThang_Click);
+            // 
+            // btnTheoQuy
+            // 
+            this.btnTheoQuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.btnTheoQuy.Location = new System.Drawing.Point(179, 12);
+            this.btnTheoQuy.Name = "btnTheoQuy";
+            this.btnTheoQuy.Size = new System.Drawing.Size(75, 29);
+            this.btnTheoQuy.TabIndex = 8;
+            this.btnTheoQuy.Text = "Quý";
+            this.btnTheoQuy.UseVisualStyleBackColor = false;
+            this.btnTheoQuy.Click += new System.EventHandler(this.btnTheoQuy_Click);
+            // 
+            // btnTheoNam
+            // 
+            this.btnTheoNam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.btnTheoNam.Location = new System.Drawing.Point(276, 12);
+            this.btnTheoNam.Name = "btnTheoNam";
+            this.btnTheoNam.Size = new System.Drawing.Size(75, 29);
+            this.btnTheoNam.TabIndex = 9;
+            this.btnTheoNam.Text = "Năm";
+            this.btnTheoNam.UseVisualStyleBackColor = false;
+            this.btnTheoNam.Click += new System.EventHandler(this.btnTheoNam_Click);
+            // 
+            // dtpDenNgay
+            // 
+            this.dtpDenNgay.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpDenNgay.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.dtpDenNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDenNgay.Location = new System.Drawing.Point(320, 80);
+            this.dtpDenNgay.Name = "dtpDenNgay";
+            this.dtpDenNgay.Size = new System.Drawing.Size(160, 27);
+            this.dtpDenNgay.TabIndex = 1;
+            this.dtpDenNgay.Value = new System.DateTime(2025, 9, 26, 16, 13, 48, 180);
+            // 
+            // dtpTuNgay
+            // 
+            this.dtpTuNgay.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpTuNgay.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.dtpTuNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpTuNgay.Location = new System.Drawing.Point(110, 80);
+            this.dtpTuNgay.Name = "dtpTuNgay";
+            this.dtpTuNgay.Size = new System.Drawing.Size(160, 27);
+            this.dtpTuNgay.TabIndex = 0;
+            this.dtpTuNgay.Value = new System.DateTime(2025, 8, 26, 16, 13, 48, 179);
             // 
             // BaoCaoDTForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 574);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblTongDoanhThu);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dtpDenNgay);
+            this.Controls.Add(this.dtpTuNgay);
+            this.Controls.Add(this.btnTheoThang);
+            this.Controls.Add(this.btnTheoQuy);
+            this.Controls.Add(this.btnTheoNam);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -169,19 +209,22 @@ namespace QuanLyNhaHang.UI
             this.Name = "BaoCaoDTForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Báo Cáo Doanh Thu - Nhà Hàng Thịnh Phát";
+            this.Load += new System.EventHandler(this.BaoCaoDTForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
         #endregion
-
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Button button1;
         private System.Data.Entity.Core.EntityClient.EntityCommand entityCommand1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox lblTongDoanhThu;
+        private System.Windows.Forms.Button btnTheoThang;
+        private System.Windows.Forms.Button btnTheoQuy;
+        private System.Windows.Forms.Button btnTheoNam;
+        private System.Windows.Forms.DateTimePicker dtpDenNgay;
+        private System.Windows.Forms.DateTimePicker dtpTuNgay;
     }
 }

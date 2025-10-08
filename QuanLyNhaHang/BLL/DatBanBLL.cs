@@ -1,4 +1,6 @@
 ﻿using QuanLyNhaHang.Models;
+using QuanLyNhaHang.DAL;
+using QuanLyNhaHang.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,122 +9,170 @@ namespace QuanLyNhaHang.BLL
 {
     public class DatBanBLL
     {
-        // ✅ Lấy bàn còn trống cho khách chọn
+        private static DatBanDAL dal = new DatBanDAL();
+
+        #region Public Methods
+
         public static List<BanAn> GetBanTrong()
         {
-            using (var db = new Model1())
-            {
-                return db.BanAn.Where(b => b.TrangThai == "Trống").ToList();
-            }
+            return ExceptionHelper.SafeExecute(() => BanAnBLL.GetBanTrong(), new List<BanAn>(), "Lỗi khi lấy danh sách bàn trống");
         }
 
-        // ✅ Khách đặt bàn (tạo yêu cầu "Chờ duyệt")
-        public static void DatBanMoi(int banId, int userId, DateTime thoiGian)
-        {
-            using (var db = new Model1())
-            {
-                var ban = db.BanAn.Find(banId);
-                if (ban == null)
-                    throw new InvalidOperationException("Bàn không tồn tại.");
-
-                if (ban.TrangThai != "Trống")
-                    throw new InvalidOperationException("Bàn hiện không trống.");
-
-                var datBan = new DatBan
-                {
-                    BanID = banId,
-                    UserID = userId,
-                    NgayDat = thoiGian,
-                    TrangThai = "Chờ duyệt"
-                };
-
-                db.DatBan.Add(datBan);
-                db.SaveChanges();
-            }
-        }
-
-        // ✅ Admin duyệt yêu cầu đặt bàn
-        public static bool DuyetDatBan(int datBanId)
-        {
-            using (var db = new Model1())
-            {
-                var datBan = db.DatBan.Find(datBanId);
-                if (datBan == null || datBan.TrangThai != "Chờ duyệt")
-                    return false;
-
-                datBan.TrangThai = "Đã duyệt";
-                var ban = db.BanAn.Find(datBan.BanID);
-                if (ban != null) ban.TrangThai = "Đặt trước"; // mapping đúng với CHECK constraint
-
-                db.SaveChanges();
-                return true;
-            }
-        }
-
-        // ✅ Khi khách tới => xác nhận dùng bàn
-        public static bool XacNhanDatBan(int datBanId)
-        {
-            using (var db = new Model1())
-            {
-                var datBan = db.DatBan.Find(datBanId);
-                if (datBan == null || datBan.TrangThai != "Đã duyệt")
-                    return false;
-
-                // Giữ trạng thái DatBan = "Đã duyệt" để làm lịch sử
-                var ban = db.BanAn.Find(datBan.BanID);
-                if (ban != null) ban.TrangThai = "Đang dùng";
-
-                db.SaveChanges();
-                return true;
-            }
-        }
-
-        // ✅ Hủy đặt bàn
-        public static bool HuyDatBan(int datBanId)
-        {
-            using (var db = new Model1())
-            {
-                var datBan = db.DatBan.Find(datBanId);
-                if (datBan == null) return false;
-
-                datBan.TrangThai = "Đã hủy";
-                var ban = db.BanAn.Find(datBan.BanID);
-                if (ban != null) ban.TrangThai = "Trống";
-
-                db.SaveChanges();
-                return true;
-            }
-        }
-
-        // ✅ Lấy danh sách đặt bàn cho Admin
-        public static List<object> GetDanhSachDatBan()
-        {
-            using (var db = new Model1())
-            {
-                return db.DatBan
-                         .Select(d => new
-                         {
-                             d.DatBanID,
-                             TenBan = d.BanAn.TenBan,
-                             NguoiDat = d.NguoiDung.HoTen,
-                             d.NgayDat,
-                             d.TrangThai
-                         })
-                         .OrderByDescending(d => d.NgayDat)
-                         .ToList<object>();
-            }
-        }
-
-        // ✅ Lấy danh sách đặt bàn của một user
         public static List<DatBan> GetDatBanByUser(int userId)
         {
-            using (var db = new Model1())
-            {
-                return db.DatBan
-                         .Where(d => d.UserID == userId)
-                         .OrderByDescending(d => d.NgayDat)
-                         .ToList();
-            }
+            return ExceptionHelper.SafeExecute(() => dal.GetByUserId(userId), new List<DatBan>(), "Lỗi khi lấy danh sách đặt bàn của người dùng");
         }
+
+        public static List<DatBan> GetChoDuyet()
+        {
+            return ExceptionHelper.SafeExecute(() => dal.GetChoDuyet(), new List<DatBan>(), "Lỗi khi lấy danh sách đặt bàn chờ duyệt");
+        }
+
+        public static List<DatBan> GetDaDuyet()
+        {
+            return ExceptionHelper.SafeExecute(() => dal.GetDaDuyet(), new List<DatBan>(), "Lỗi khi lấy danh sách đặt bàn đã duyệt");
+        }
+
+        public static List<object> GetDanhSachDatBan()
+        {
+            return ExceptionHelper.SafeExecute(() => dal.GetDanhSachDatBan(), new List<object>(), "Lỗi khi lấy danh sách đặt bàn");
+        }
+
+        #endregion
+
+        #region Business Logic Methods
+
+        public static string DatBanMoi(int banId, int userId, DateTime thoiGian)
+        {
+            if (banId <= 0)
+            {
+                ExceptionHelper.ShowWarningMessage("ID bàn không hợp lệ!");
+                return "ID bàn không hợp lệ!";
+            }
+
+            if (userId <= 0)
+            {
+                ExceptionHelper.ShowWarningMessage("ID người dùng không hợp lệ!");
+                return "ID người dùng không hợp lệ!";
+            }
+
+            if (thoiGian < DateTime.Now.AddHours(-1))
+            {
+                ExceptionHelper.ShowWarningMessage("Thời gian đặt bàn không hợp lệ!");
+                return "Thời gian đặt bàn không hợp lệ!";
+            }
+
+            if (thoiGian > DateTime.Now.AddDays(30))
+            {
+                ExceptionHelper.ShowWarningMessage("Không thể đặt bàn quá 30 ngày!");
+                return "Không thể đặt bàn quá 30 ngày!";
+            }
+
+            if (!BanAnBLL.IsBanTrong(banId))
+            {
+                ExceptionHelper.ShowWarningMessage("Bàn hiện không trống!");
+                return "Bàn hiện không trống!";
+            }
+
+            // Logic chính: chỉ đặt bàn, không tạo hóa đơn
+            return ExceptionHelper.SafeExecute(
+                () => dal.Add(banId, userId, thoiGian, "Chờ duyệt"),
+                "Lỗi khi đặt bàn",
+                "Lỗi khi đặt bàn"
+            );
+        }
+
+
+        public static string DuyetDatBan(int datBanId)
+        {
+            // Validation
+            if (datBanId <= 0)
+            {
+                ExceptionHelper.ShowWarningMessage("ID đặt bàn không hợp lệ!");
+                return "ID đặt bàn không hợp lệ!";
+            }
+
+            // Business logic: Kiểm tra yêu cầu đặt bàn có tồn tại và đang chờ duyệt không
+            var datBan = ExceptionHelper.SafeExecute(() => dal.GetById(datBanId), null, "Lỗi khi lấy thông tin đặt bàn");
+            if (datBan == null)
+            {
+                ExceptionHelper.ShowWarningMessage("Không tìm thấy yêu cầu đặt bàn!");
+                return "Không tìm thấy yêu cầu đặt bàn!";
+            }
+
+            if (datBan.TrangThai != "Chờ duyệt")
+            {
+                ExceptionHelper.ShowWarningMessage("Chỉ duyệt yêu cầu đang ở trạng thái 'Chờ duyệt'!");
+                return "Chỉ duyệt yêu cầu đang ở trạng thái 'Chờ duyệt'!";
+            }
+
+            // Gọi DAL: duyệt yêu cầu
+            return ExceptionHelper.SafeExecute(() => dal.DuyetDatBan(datBanId), "Lỗi khi cập nhật trạng thái bàn", "Lỗi khi cập nhật trạng thái bàn");
+        }
+
+        public static string HuyDatBan(int datBanId)
+        {
+            // Validation
+            if (datBanId <= 0)
+            {
+                ExceptionHelper.ShowWarningMessage("ID đặt bàn không hợp lệ!");
+                return "ID đặt bàn không hợp lệ!";
+            }
+
+            // Business logic: Kiểm tra yêu cầu đặt bàn có tồn tại không
+            var datBan = ExceptionHelper.SafeExecute(() => dal.GetById(datBanId), null, "Lỗi khi lấy thông tin đặt bàn");
+            if (datBan == null)
+            {
+                ExceptionHelper.ShowWarningMessage("Không tìm thấy yêu cầu đặt bàn!");
+                return "Không tìm thấy yêu cầu đặt bàn!";
+            }
+
+            // Gọi DAL
+            return ExceptionHelper.SafeExecute(() => dal.HuyDatBan(datBanId), "Lỗi khi hủy đặt bàn", "Lỗi khi hủy đặt bàn");
+        }
+
+        public static string XoaDatBan(int datBanId)
+        {
+            // Validation
+            if (datBanId <= 0)
+            {
+                ExceptionHelper.ShowWarningMessage("ID đặt bàn không hợp lệ!");
+                return "ID đặt bàn không hợp lệ!";
+            }
+
+            // Business logic: Chỉ cho phép xóa yêu cầu đã hủy
+            var datBan = ExceptionHelper.SafeExecute(() => dal.GetById(datBanId), null, "Lỗi khi lấy thông tin đặt bàn");
+            if (datBan == null)
+            {
+                ExceptionHelper.ShowWarningMessage("Không tìm thấy yêu cầu đặt bàn!");
+                return "Không tìm thấy yêu cầu đặt bàn!";
+            }
+
+            if (datBan.TrangThai != "Đã hủy")
+            {
+                ExceptionHelper.ShowWarningMessage("Chỉ có thể xóa yêu cầu đặt bàn đã hủy!");
+                return "Chỉ có thể xóa yêu cầu đặt bàn đã hủy!";
+            }
+
+            // Gọi DAL
+            return ExceptionHelper.SafeExecute(() => dal.Delete(datBanId), "Lỗi khi xóa đặt bàn", "Lỗi khi xóa đặt bàn");
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        public static bool IsUserCoBanDaDuyet(int userId)
+        {
+            return ExceptionHelper.SafeExecute(() => dal.IsUserCoBanDaDuyet(userId), false, "Lỗi khi kiểm tra trạng thái đặt bàn");
+        }
+
+        public static DatBan GetBanDaDuyetByUser(int userId)
+        {
+            return ExceptionHelper.SafeExecute(() => dal.GetBanDaDuyetByUser(userId), null, "Lỗi khi lấy bàn đang đặt");
+        }
+
+
+        #endregion
     }
 }

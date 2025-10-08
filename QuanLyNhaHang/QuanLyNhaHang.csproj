@@ -70,7 +70,13 @@
     <Compile Include="BLL\GioHangBLL.cs" />
     <Compile Include="BLL\HoaDonBLL.cs" />
     <Compile Include="BLL\NguoiDungBLL.cs" />
+    <Compile Include="BLL\RevenueBLL.cs" />
     <Compile Include="BLL\ThucDonBLL.cs" />
+    <Compile Include="DAL\BanAnDAL.cs" />
+    <Compile Include="DAL\ChiTietHoaDonDAL.cs" />
+    <Compile Include="DAL\DatBanDAL.cs" />
+    <Compile Include="DAL\GioHangDAL.cs" />
+    <Compile Include="DAL\HoaDonDAL.cs" />
     <Compile Include="DAL\NguoiDungDAL.cs" />
     <Compile Include="DAL\ThucDonDAL.cs" />
     <Compile Include="Models\BanAn.cs" />
@@ -175,6 +181,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ExceptionHelper.cs" />
+    <Compile Include="Utils\SecurityHelper.cs" />
     <Compile Include="UI\RegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,7 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Reports\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\anh1.jpg">

@@ -33,24 +33,19 @@ namespace QuanLyNhaHang.UI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BanAnForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnDatBan = new System.Windows.Forms.Button();
             this.dtpThoiGian = new System.Windows.Forms.DateTimePicker();
-            this.numSoNguoi = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.flowBanAn = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numSoNguoi)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnDatBan);
             this.groupBox1.Controls.Add(this.dtpThoiGian);
-            this.groupBox1.Controls.Add(this.numSoNguoi);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.groupBox1.ForeColor = System.Drawing.Color.Navy;
             this.groupBox1.Location = new System.Drawing.Point(483, 36);
@@ -66,22 +61,11 @@ namespace QuanLyNhaHang.UI
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.label5.ForeColor = System.Drawing.Color.DarkBlue;
-            this.label5.Location = new System.Drawing.Point(14, 129);
+            this.label5.Location = new System.Drawing.Point(19, 110);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 25);
+            this.label5.Size = new System.Drawing.Size(72, 20);
             this.label5.TabIndex = 12;
             this.label5.Text = "Thời Gian";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.label4.ForeColor = System.Drawing.Color.DarkBlue;
-            this.label4.Location = new System.Drawing.Point(14, 56);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 25);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Số Người";
             // 
             // btnDatBan
             // 
@@ -90,7 +74,7 @@ namespace QuanLyNhaHang.UI
             this.btnDatBan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDatBan.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnDatBan.ForeColor = System.Drawing.Color.White;
-            this.btnDatBan.Location = new System.Drawing.Point(18, 223);
+            this.btnDatBan.Location = new System.Drawing.Point(23, 205);
             this.btnDatBan.Name = "btnDatBan";
             this.btnDatBan.Size = new System.Drawing.Size(104, 36);
             this.btnDatBan.TabIndex = 9;
@@ -104,35 +88,12 @@ namespace QuanLyNhaHang.UI
             this.dtpThoiGian.CustomFormat = "dd/MM/yyyy HH:mm";
             this.dtpThoiGian.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.dtpThoiGian.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpThoiGian.Location = new System.Drawing.Point(92, 125);
+            this.dtpThoiGian.Location = new System.Drawing.Point(110, 106);
             this.dtpThoiGian.Name = "dtpThoiGian";
-            this.dtpThoiGian.Size = new System.Drawing.Size(200, 30);
+            this.dtpThoiGian.Size = new System.Drawing.Size(200, 25);
             this.dtpThoiGian.TabIndex = 7;
-            this.dtpThoiGian.Value = new System.DateTime(2025, 9, 26, 14, 54, 58, 700);
+            this.dtpThoiGian.Value = new System.DateTime(2025, 9, 30, 0, 0, 0, 0);
             this.dtpThoiGian.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dateTimePicker1_KeyPress);
-            // 
-            // numSoNguoi
-            // 
-            this.numSoNguoi.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.numSoNguoi.Location = new System.Drawing.Point(92, 56);
-            this.numSoNguoi.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.numSoNguoi.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numSoNguoi.Name = "numSoNguoi";
-            this.numSoNguoi.Size = new System.Drawing.Size(120, 30);
-            this.numSoNguoi.TabIndex = 6;
-            this.numSoNguoi.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // label2
             // 
@@ -141,7 +102,7 @@ namespace QuanLyNhaHang.UI
             this.label2.ForeColor = System.Drawing.Color.DarkBlue;
             this.label2.Location = new System.Drawing.Point(150, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(190, 37);
+            this.label2.Size = new System.Drawing.Size(153, 30);
             this.label2.TabIndex = 12;
             this.label2.Text = "Sơ Đồ Bàn Ăn";
             // 
@@ -158,7 +119,7 @@ namespace QuanLyNhaHang.UI
             // 
             // BanAnForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
@@ -176,7 +137,6 @@ namespace QuanLyNhaHang.UI
             this.Load += new System.EventHandler(this.BanAnForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numSoNguoi)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -187,10 +147,8 @@ namespace QuanLyNhaHang.UI
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnDatBan;
         private System.Windows.Forms.DateTimePicker dtpThoiGian;
-        private System.Windows.Forms.NumericUpDown numSoNguoi;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.FlowLayoutPanel flowBanAn;
     }

@@ -37,10 +37,33 @@ namespace QuanLyNhaHang.UI
                 var uc = new UC_MonAn(mon);
                 uc.OnAddToCart += (s, m) =>
                 {
-                    gioHang.Add(m, 1);
-                    RefreshCartUI();
-                    MessageBox.Show($"Đã thêm {m.TenMon} vào giỏ hàng", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Logic mới: Kiểm tra đã đặt bàn chưa trước khi order
+                    string result = HoaDonBLL.ThemMonVaoHoaDon(currentUser.UserID, m.MonID, 1);
+                    
+                    if (result.Contains("thành công") || result.Contains("Đã thêm"))
+                    {
+                        RefreshCartUI();
+                        MessageBox.Show(result, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (result.Contains("chưa đặt bàn") || result.Contains("đặt bàn"))
+                    {
+                        // Nếu chưa đặt bàn, hỏi có muốn đặt bàn không
+                        var dialogResult = MessageBox.Show(result + "\n\nBạn có muốn đặt bàn ngay không?", 
+                            "Yêu cầu đặt bàn", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            using (var banAnForm = new BanAnForm(currentUser))
+                            {
+                                banAnForm.ShowDialog();
+                                RefreshCartUI(); // Refresh sau khi đặt bàn
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(result, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 };
                 flowThucDon.Controls.Add(uc);
             }
@@ -110,7 +133,23 @@ namespace QuanLyNhaHang.UI
 
         private void RefreshCartUI()
         {
-            var items = gioHang.GetItems() ?? new List<GioHangItem>();
+            // Logic mới: Lấy dữ liệu từ hóa đơn hiện tại thay vì từ GioHangBLL
+            var chiTietHoaDon = HoaDonBLL.GetChiTietHoaDonHienTai(currentUser.UserID);
+            
+            // Convert sang GioHangItem để tương thích với UI
+            var items = new List<GioHangItem>();
+            
+            foreach (dynamic item in chiTietHoaDon)
+            {
+                items.Add(new GioHangItem
+                {
+                    MonID = item.MonID, // Sử dụng MonID trực tiếp từ database
+                    TenMon = item.TenMon,
+                    DonGia = item.DonGia,
+                    SoLuong = item.SoLuong
+                });
+            }
+
             cartBinding = new BindingList<GioHangItem>(items);
 
             dgvGioHang.DataSource = null;
@@ -131,8 +170,25 @@ namespace QuanLyNhaHang.UI
         {
             if (dgvGioHang.CurrentRow?.DataBoundItem is GioHangItem item)
             {
-                gioHang.Remove(item.MonID);
-                RefreshCartUI();
+                // Logic mới: Xóa món khỏi hóa đơn hiện tại
+                var hoaDon = HoaDonBLL.GetHoaDonHienTai(currentUser.UserID);
+                if (hoaDon != null && item.MonID > 0)
+                {
+                    string result = HoaDonBLL.XoaMonKhoiHoaDon(hoaDon.HoaDonID, item.MonID);
+                    if (result.Contains("thành công"))
+                    {
+                        RefreshCartUI();
+                        MessageBox.Show(result, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(result, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Không thể xóa món này!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
 
@@ -140,37 +196,43 @@ namespace QuanLyNhaHang.UI
         {
             try
             {
-                var ban = HoaDonBLL.GetBanDaDuyet(currentUser.UserID);
-                if (ban == null)
+                // Logic mới: Kiểm tra có thể order không
+                string kiemTra = HoaDonBLL.KiemTraCoTheOrder(currentUser.UserID);
+                if (kiemTra != "OK")
                 {
-                    MessageBox.Show("Bạn cần đặt bàn và chờ Admin duyệt trước khi gọi món!",
-                                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    var r = MessageBox.Show(
+                        kiemTra + "\n\nBạn có muốn đặt bàn ngay không?",
+                        "Yêu cầu đặt bàn",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+                    if (r == DialogResult.Yes)
+                    {
+                        using (var f = new BanAnForm(currentUser))
+                        {
+                            f.ShowDialog();
+                            RefreshCartUI(); // Refresh sau khi đặt bàn
+                        }
+                    }
                     return;
                 }
 
-                var hd = HoaDonBLL.GetOrCreateHoaDon(ban.BanID, currentUser.UserID);
-
-                // Lấy items từ gioHang (không phụ thuộc DataGridView)
-                var items = gioHang.GetItems(); // List<GioHangItem>
-                if (items == null || items.Count == 0)
+                // Kiểm tra có món trong hóa đơn không
+                var chiTietHoaDon = HoaDonBLL.GetChiTietHoaDonHienTai(currentUser.UserID);
+                if (chiTietHoaDon == null || chiTietHoaDon.Count == 0)
                 {
-                    MessageBox.Show("Giỏ hàng trống!");
+                    MessageBox.Show("Bạn chưa có món nào trong hóa đơn!", "Thông báo", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                foreach (var item in items)
-                {
-                    if (item.SoLuong <= 0) continue;
-                    HoaDonBLL.ThemMon(hd.HoaDonID, item.MonID, item.SoLuong);
-                }
-
-                MessageBox.Show("Đặt món thành công!");
-                gioHang.Clear();
+                MessageBox.Show("Đặt món thành công! Hóa đơn đã được cập nhật.", "Thông báo", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 RefreshCartUI();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

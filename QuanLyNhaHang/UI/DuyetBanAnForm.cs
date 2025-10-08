@@ -30,11 +30,13 @@ namespace QuanLyNhaHang.UI
                 dataGridView1.Columns["TenBan"].HeaderText = "Tên bàn";
                 dataGridView1.Columns["NguoiDat"].HeaderText = "Người đặt";
                 dataGridView1.Columns["NgayDat"].HeaderText = "Thời gian đặt";
-                dataGridView1.Columns["TrangThai"].HeaderText = "Trạng thái";
+                dataGridView1.Columns["TrangThaiYeuCau"].HeaderText = "Trạng thái yêu cầu";
+                dataGridView1.Columns["TrangThaiBan"].HeaderText = "Trạng thái bàn";
             }
 
             datBanId = 0;
         }
+
 
         // Chọn dòng trong datagridview
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -51,19 +53,20 @@ namespace QuanLyNhaHang.UI
             LoadData();
         }
 
-        // ✅ Nút Duyệt (Admin duyệt yêu cầu)
+        // ✅ Xác nhận khách đã đến (chuyển sang Đang dùng)
         private void btnDuyet_Click(object sender, EventArgs e)
         {
             if (datBanId > 0)
             {
-                if (DatBanBLL.DuyetDatBan(datBanId))
+                string result = DatBanBLL.DuyetDatBan(datBanId);
+                if (result.Contains("thành công"))
                 {
-                    MessageBox.Show("Duyệt thành công!");
+                    MessageBox.Show("Đã chuyển bàn sang trạng thái 'Đang dùng'!");
                     LoadData();
                 }
                 else
                 {
-                    MessageBox.Show("Không thể duyệt yêu cầu này!");
+                    MessageBox.Show(result);
                 }
             }
             else
@@ -71,20 +74,21 @@ namespace QuanLyNhaHang.UI
                 MessageBox.Show("Vui lòng chọn yêu cầu đặt bàn!");
             }
         }
-
+        
         // ✅ Nút Hủy (Admin hủy yêu cầu)
         private void btnHuy_Click(object sender, EventArgs e)
         {
             if (datBanId > 0)
             {
-                if (DatBanBLL.HuyDatBan(datBanId))
+                string result = DatBanBLL.HuyDatBan(datBanId);
+                if (result.Contains("thành công"))
                 {
                     MessageBox.Show("Hủy thành công!");
                     LoadData();
                 }
                 else
                 {
-                    MessageBox.Show("Không thể hủy yêu cầu này!");
+                    MessageBox.Show(result);
                 }
             }
             else
@@ -93,19 +97,17 @@ namespace QuanLyNhaHang.UI
             }
         }
 
-        // ✅ Nút Xác nhận (Khách đến, đổi bàn sang Đang dùng)
-        private void btnXacNhan_Click(object sender, EventArgs e)
+        // ✅ Xóa lịch sử đặt bàn (chỉ với yêu cầu đã hủy)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
             if (datBanId > 0)
             {
-                if (DatBanBLL.XacNhanDatBan(datBanId))
+                var confirm = MessageBox.Show("Bạn có chắc muốn xóa yêu cầu đã hủy này?", "Xóa lịch sử", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
                 {
-                    MessageBox.Show("Xác nhận thành công!");
+                    string result = DatBanBLL.XoaDatBan(datBanId);
+                    MessageBox.Show(result);
                     LoadData();
-                }
-                else
-                {
-                    MessageBox.Show("Không thể xác nhận!");
                 }
             }
             else
@@ -113,5 +115,6 @@ namespace QuanLyNhaHang.UI
                 MessageBox.Show("Vui lòng chọn yêu cầu đặt bàn!");
             }
         }
+
     }
 }

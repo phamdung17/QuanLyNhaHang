@@ -7,7 +7,7 @@ namespace QuanLyNhaHang.BLL
 {
     public class ThucDonBLL
     {
-        // Kết nối DAL
+     
         private DAL.ThucDonDAL dal = new DAL.ThucDonDAL();
         public List<ThucDon> GetAll()
         {
@@ -31,10 +31,10 @@ namespace QuanLyNhaHang.BLL
         // Lấy danh sách món ăn để hiển thị menu (có ảnh & loại món)
         public static List<ThucDonViewModel> GetMenu()
         {
-            using (var db = new Model1()) // tên DbContext của bạn
+            using (var db = new Model1()) 
             {
                 var list = db.ThucDon
-                    .Where(m => m.TrangThai == true)   // chỉ món còn bán
+                    .Where(m => m.TrangThai == true && m.TrangThai != null)   
                     .ToList();
 
                 var vmList = list.Select(m => new ThucDonViewModel
@@ -44,15 +44,13 @@ namespace QuanLyNhaHang.BLL
                     DonGia = m.DonGia,
                     DonViTinh = m.DonViTinh,
                     TrangThai = m.TrangThai ?? false,
-                    HinhAnh = GetImageForMon(m.MonID),   // gán tên file ảnh (không phải đường dẫn tuyệt đối)
+                    HinhAnh = GetImageForMon(m.MonID),  
                     LoaiMon = GetLoaiForMon(m.MonID)
                 }).ToList();
 
                 return vmList;
             }
         }
-
-        // --- Tùy bạn chọn 1 trong 2 cách: gán theo MonID (ở đây) hoặc map theo tên/DB ---
         private static string GetImageForMon(int monId)
         {
             return (monId >= 1 && monId <= 12) ? $"anh{monId}.jpg" : "no_image.png";

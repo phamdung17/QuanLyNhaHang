@@ -132,7 +132,7 @@ namespace QuanLyNhaHang.UI
                 sb.AppendLine($"Khách hàng: {hoaDon.NguoiDung?.HoTen}");
                 sb.AppendLine($"Ngày lập: {hoaDon.NgayLap:dd/MM/yyyy HH:mm}");
                 sb.AppendLine("--------------------------------------");
-                sb.AppendLine("Tên món\tSL\tĐơn giá\tThành tiền");
+                sb.AppendLine("Tên món\tSL \tĐơn giá       \tThành tiền");
 
                 decimal tongTien = 0;
                 foreach (dynamic item in chiTiet)

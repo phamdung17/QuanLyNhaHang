@@ -1,5 +1,6 @@
 ﻿using QuanLyNhaHang.BLL;
 using QuanLyNhaHang.Models;
+using QuanLyNhaHang.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,28 +25,27 @@ namespace QuanLyNhaHang.UI
         private void LoadBanAn()
         {
             flowBanAn.Controls.Clear();
-            using (var db = new Model1())
+            
+            // Logic mới: Hiển thị tất cả bàn trống (không chỉ bàn đã được đặt bởi user hiện tại)
+            var listBan = BanAnBLL.GetBanTrong();
+
+            foreach (var b in listBan)
             {
-                var listBan = db.BanAn.Where(b => b.TrangThai == "Trống").ToList();
+                var uc = new UC_BanAn(b);
 
-                foreach (var b in listBan)
+                // Khi 1 bàn được check
+                uc.OnBanChecked += (s, selectedUC) =>
                 {
-                    var uc = new UC_BanAn(b);
-
-                    // Khi 1 bàn được check
-                    uc.OnBanChecked += (s, selectedUC) =>
+                    foreach (Control ctrl in flowBanAn.Controls)
                     {
-                        foreach (Control ctrl in flowBanAn.Controls)
+                        if (ctrl is UC_BanAn otherUC && otherUC != selectedUC)
                         {
-                            if (ctrl is UC_BanAn otherUC && otherUC != selectedUC)
-                            {
-                                otherUC.Uncheck();
-                            }
+                            otherUC.Uncheck();
                         }
-                    };
+                    }
+                };
 
-                    flowBanAn.Controls.Add(uc);
-                }
+                flowBanAn.Controls.Add(uc);
             }
         }
 
@@ -58,44 +58,49 @@ namespace QuanLyNhaHang.UI
         private void BanAnForm_Load(object sender, EventArgs e)
         {
             LoadBanAn();
+            dtpThoiGian.Value = DateTime.Now;
         }
         private void btnDatBan_Click(object sender, EventArgs e)
         {
-            try
+            // Validation cơ bản
+            int userId = currentUser?.UserID ?? 0;
+            if (userId == 0)
             {
-                int userId = currentUser.UserID;
-                DateTime thoiGian = DateTime.Now;
-                bool daChonBan = false;
-
-                foreach (Control control in flowBanAn.Controls)
-                {
-                    if (control is UC_BanAn uc && uc.IsSelected)
-                    {
-                        daChonBan = true;
-                        int banId = uc.BanID;
-                        DatBanBLL.DatBanMoi(banId, userId, thoiGian);
-                       
-                    }
-                }
-
-                if (!daChonBan)
-                {
-                    MessageBox.Show("Vui lòng chọn ít nhất một bàn để đặt!",
-                                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                MessageBox.Show("Đặt bàn thành công! Vui lòng chờ Admin duyệt.",
-                                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                LoadBanAn();
+                ExceptionHelper.ShowErrorMessage(new ArgumentException("Thông tin người dùng không hợp lệ!"), "Lỗi đặt bàn");
+                return;
             }
-            catch (Exception ex)
+
+            DateTime thoiGian = dtpThoiGian.Value;
+            bool daChonBan = false;
+
+            // Tìm bàn được chọn
+            foreach (Control control in flowBanAn.Controls)
             {
-                MessageBox.Show("Lỗi khi đặt bàn: " + ex.Message,
-                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (control is UC_BanAn uc && uc.IsSelected)
+                {
+                    daChonBan = true;
+                    int banId = uc.BanID;
+
+                    // Logic mới: Đặt bàn và tạo hóa đơn luôn
+                    string result = DatBanBLL.DatBanMoi(banId, userId, thoiGian);
+                    
+                    if (result.Contains("thành công"))
+                    {
+                        ExceptionHelper.ShowSuccessMessage(result);
+                        LoadBanAn(); // load lại danh sách bàn
+                        this.Close(); // Đóng form sau khi đặt bàn thành công
+                    }
+                    // Nếu có lỗi, ExceptionHelper đã hiển thị thông báo
+                    break;
+                }
+            }
+
+            if (!daChonBan)
+            {
+                ExceptionHelper.ShowWarningMessage("Vui lòng chọn ít nhất một bàn để đặt!");
             }
         }
+
 
 
         private void dateTimePicker1_KeyPress(object sender, KeyPressEventArgs e)

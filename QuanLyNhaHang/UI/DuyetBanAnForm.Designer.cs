@@ -34,7 +34,6 @@ namespace QuanLyNhaHang.UI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DuyetBanAnForm));
             this.label3 = new System.Windows.Forms.Label();
             this.bntHuy = new System.Windows.Forms.Button();
-            this.bntDuyet = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnLoad = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -48,7 +47,7 @@ namespace QuanLyNhaHang.UI
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.Navy;
-            this.label3.Location = new System.Drawing.Point(386, 20);
+            this.label3.Location = new System.Drawing.Point(364, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(226, 41);
             this.label3.TabIndex = 19;
@@ -63,29 +62,13 @@ namespace QuanLyNhaHang.UI
             this.bntHuy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bntHuy.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.bntHuy.ForeColor = System.Drawing.Color.White;
-            this.bntHuy.Location = new System.Drawing.Point(371, 428);
+            this.bntHuy.Location = new System.Drawing.Point(115, 512);
             this.bntHuy.Name = "bntHuy";
             this.bntHuy.Size = new System.Drawing.Size(120, 40);
             this.bntHuy.TabIndex = 15;
             this.bntHuy.Text = "Hủy Đơn";
             this.bntHuy.UseVisualStyleBackColor = false;
             this.bntHuy.Click += new System.EventHandler(this.btnHuy_Click);
-            // 
-            // bntDuyet
-            // 
-            this.bntDuyet.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.bntDuyet.BackColor = System.Drawing.Color.DodgerBlue;
-            this.bntDuyet.FlatAppearance.BorderSize = 0;
-            this.bntDuyet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bntDuyet.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.bntDuyet.ForeColor = System.Drawing.Color.White;
-            this.bntDuyet.Location = new System.Drawing.Point(90, 427);
-            this.bntDuyet.Name = "bntDuyet";
-            this.bntDuyet.Size = new System.Drawing.Size(124, 40);
-            this.bntDuyet.TabIndex = 12;
-            this.bntDuyet.Text = "Xác nhận";
-            this.bntDuyet.UseVisualStyleBackColor = false;
-            this.bntDuyet.Click += new System.EventHandler(this.btnDuyet_Click);
             // 
             // dataGridView1
             // 
@@ -117,7 +100,7 @@ namespace QuanLyNhaHang.UI
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoad.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnLoad.ForeColor = System.Drawing.Color.White;
-            this.btnLoad.Location = new System.Drawing.Point(230, 428);
+            this.btnLoad.Location = new System.Drawing.Point(785, 513);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(110, 40);
             this.btnLoad.TabIndex = 20;
@@ -133,13 +116,13 @@ namespace QuanLyNhaHang.UI
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(90, 512);
+            this.button1.Location = new System.Drawing.Point(115, 436);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(250, 40);
             this.button1.TabIndex = 21;
             this.button1.Text = "Xác nhận khách đã đến";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.btnXacNhan_Click);
+            this.button1.Click += new System.EventHandler(this.btnDuyet_Click);
             // 
             // button2
             // 
@@ -149,12 +132,13 @@ namespace QuanLyNhaHang.UI
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(371, 512);
+            this.button2.Location = new System.Drawing.Point(245, 511);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(120, 40);
             this.button2.TabIndex = 22;
-            this.button2.Text = "Xóa yêu cầu";
+            this.button2.Text = "Xóa lịch sử (đã hủy)";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // DuyetBanAnForm
             // 
@@ -167,7 +151,6 @@ namespace QuanLyNhaHang.UI
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.bntHuy);
-            this.Controls.Add(this.bntDuyet);
             this.Controls.Add(this.dataGridView1);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -175,7 +158,7 @@ namespace QuanLyNhaHang.UI
             this.MaximizeBox = false;
             this.Name = "DuyetBanAnForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Duyệt Bàn Ăn - Nhà Hàng Thịnh Phát";
+            this.Text = "Quản Lý Đặt Bàn - Nhà Hàng Thịnh Phát";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -185,7 +168,6 @@ namespace QuanLyNhaHang.UI
 
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button bntHuy;
-        private System.Windows.Forms.Button bntDuyet;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnLoad;
         private Button button1;

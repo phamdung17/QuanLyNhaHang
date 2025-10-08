@@ -48,7 +48,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.Navy;
-            this.label3.Location = new System.Drawing.Point(348, 25);
+            this.label3.Location = new System.Drawing.Point(312, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(300, 41);
             this.label3.TabIndex = 19;
@@ -63,7 +63,7 @@
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(611, 42);
+            this.button3.Location = new System.Drawing.Point(618, 42);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(125, 35);
             this.button3.TabIndex = 16;
@@ -79,9 +79,9 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(190, 42);
+            this.button2.Location = new System.Drawing.Point(181, 42);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 35);
+            this.button2.Size = new System.Drawing.Size(129, 35);
             this.button2.TabIndex = 15;
             this.button2.Text = "In Hóa Đơn";
             this.button2.UseVisualStyleBackColor = false;
@@ -97,7 +97,7 @@
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(325, 42);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 35);
+            this.button1.Size = new System.Drawing.Size(138, 35);
             this.button1.TabIndex = 12;
             this.button1.Text = "Xem Chi Tiết";
             this.button1.UseVisualStyleBackColor = false;
@@ -161,7 +161,7 @@
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(469, 42);
+            this.button5.Location = new System.Drawing.Point(478, 42);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(120, 35);
             this.button5.TabIndex = 21;

@@ -30,6 +30,7 @@ namespace QuanLyNhaHang.BLL
                 HoTen = fullname,
                 VaiTro = role
             };
+            
 
             dal.AddUser(user);
             return "Đăng ký thành công!";
