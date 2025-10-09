@@ -241,5 +241,20 @@ namespace QuanLyNhaHang.DAL
                 .OrderByDescending(h => h.NgayLap)
                 .ToList<object>();
         }
+        public List<object> GetLichSuHoaDonForDisplay(int userId)
+        {
+            return context.HoaDon
+                .Where(h => h.UserID == userId) // Lọc theo UserID
+                .Select(h => new
+                {
+                    h.HoaDonID,
+                    TenBan = h.BanAn.TenBan,
+                    h.NgayLap,
+                    h.TongTien,
+                    h.TrangThai
+                })
+                .OrderByDescending(h => h.NgayLap) // Sắp xếp hóa đơn mới nhất lên đầu
+                .ToList<object>();
+        }
     }
 }

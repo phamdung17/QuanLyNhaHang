@@ -22,6 +22,11 @@ namespace QuanLyNhaHang.BLL
         {
             return ExceptionHelper.SafeExecute(() => dal.GetByUserId(userId), new List<DatBan>(), "Lỗi khi lấy danh sách đặt bàn của người dùng");
         }
+        public static List<object> GetLichSuDatBanForDisplay(int userId)
+        {
+            return ExceptionHelper.SafeExecute(() => dal.GetLichSuDatBanForDisplay(userId), new List<object>(), "Lỗi khi lấy lịch sử đặt bàn.");
+        }
+
 
         public static List<DatBan> GetChoDuyet()
         {
@@ -42,72 +47,109 @@ namespace QuanLyNhaHang.BLL
 
         #region Business Logic Methods
 
+
+
+        // ✨ Đặt bàn mới, sử dụng Transaction để đảm bảo an toàn dữ liệu
         public static string DatBanMoi(int banId, int userId, DateTime thoiGian)
         {
-            if (banId <= 0)
-            {
-                ExceptionHelper.ShowWarningMessage("ID bàn không hợp lệ!");
-                return "ID bàn không hợp lệ!";
-            }
+            if (banId <= 0) return "ID bàn không hợp lệ!";
+            if (userId <= 0) return "ID người dùng không hợp lệ!";
+            if (thoiGian < DateTime.Now.AddMinutes(-5)) return "Thời gian đặt bàn không hợp lệ!";
 
-            if (userId <= 0)
+            try
             {
-                ExceptionHelper.ShowWarningMessage("ID người dùng không hợp lệ!");
-                return "ID người dùng không hợp lệ!";
-            }
+                using (var context = new Model1())
+                {
+                    using (var transaction = context.Database.BeginTransaction())
+                    {
+                        var ban = context.BanAn.FirstOrDefault(b => b.BanID == banId);
+                        if (ban == null)
+                        {
+                            transaction.Rollback();
+                            return "Bàn bạn chọn không còn tồn tại.";
+                        }
 
-            if (thoiGian < DateTime.Now.AddHours(-1))
+                        if (ban.TrangThai != "Trống")
+                        {
+                            transaction.Rollback();
+                            return $"Bàn {ban.TenBan} vừa được người khác {ban.TrangThai.ToLower()}. Vui lòng chọn bàn khác.";
+                        }
+
+                        // ✨ ĐIỀU KIỆN ĐẶT BÀN ĐÃ ĐƯỢC VIẾT LẠI ✨
+                        // Kiểm tra xem người dùng có đơn đặt bàn nào đang hoạt động thực sự không
+                        var existingActiveDatBan = context.DatBan
+                            .Include("BanAn") // Nạp thông tin của Bàn Ăn đi kèm
+                            .FirstOrDefault(d =>
+                                d.UserID == userId &&
+                                (
+                                    // Trường hợp 1: Đang chờ duyệt và bàn đã được giữ chỗ
+                                    (d.TrangThai == "Chờ duyệt" && d.BanAn.TrangThai == "Đặt trước") ||
+                                    // Trường hợp 2: Đã được duyệt và khách đang dùng bàn
+                                    (d.TrangThai == "Đã duyệt" && d.BanAn.TrangThai == "Đang dùng")
+                                )
+                            );
+
+                        if (existingActiveDatBan != null)
+                        {
+                            transaction.Rollback();
+                            return "Bạn đã có một bàn đang hoạt động. Vui lòng hoàn tất hoặc hủy đơn cũ.";
+                        }
+                        // --- KẾT THÚC PHẦN CẬP NHẬT ĐIỀU KIỆN ---
+
+                        var datBan = new DatBan
+                        {
+                            BanID = banId,
+                            UserID = userId,
+                            NgayDat = thoiGian,
+                            TrangThai = "Chờ duyệt"
+                        };
+                        context.DatBan.Add(datBan);
+
+                        ban.TrangThai = "Đặt trước";
+
+                        context.SaveChanges();
+                        transaction.Commit();
+
+                        return $"Đặt bàn {ban.TenBan} thành công!";
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                ExceptionHelper.ShowWarningMessage("Thời gian đặt bàn không hợp lệ!");
-                return "Thời gian đặt bàn không hợp lệ!";
+                ExceptionHelper.ShowErrorMessage(ex, "Lỗi hệ thống khi đặt bàn");
+                return "Đã xảy ra lỗi hệ thống khi đặt bàn.";
             }
-
-            if (thoiGian > DateTime.Now.AddDays(30))
-            {
-                ExceptionHelper.ShowWarningMessage("Không thể đặt bàn quá 30 ngày!");
-                return "Không thể đặt bàn quá 30 ngày!";
-            }
-
-            if (!BanAnBLL.IsBanTrong(banId))
-            {
-                ExceptionHelper.ShowWarningMessage("Bàn hiện không trống!");
-                return "Bàn hiện không trống!";
-            }
-
-            // Logic chính: chỉ đặt bàn, không tạo hóa đơn
-            return ExceptionHelper.SafeExecute(
-                () => dal.Add(banId, userId, thoiGian, "Chờ duyệt"),
-                "Lỗi khi đặt bàn",
-                "Lỗi khi đặt bàn"
-            );
         }
 
 
+        // ✨ Duyệt yêu cầu đặt bàn, kiểm tra trạng thái nghiêm ngặt
         public static string DuyetDatBan(int datBanId)
         {
-            // Validation
-            if (datBanId <= 0)
+            try
             {
-                ExceptionHelper.ShowWarningMessage("ID đặt bàn không hợp lệ!");
-                return "ID đặt bàn không hợp lệ!";
-            }
+                using (var context = new Model1())
+                {
+                    var datBan = context.DatBan.FirstOrDefault(d => d.DatBanID == datBanId);
+                    if (datBan == null) return "Yêu cầu đặt bàn không còn tồn tại!";
 
-            // Business logic: Kiểm tra yêu cầu đặt bàn có tồn tại và đang chờ duyệt không
-            var datBan = ExceptionHelper.SafeExecute(() => dal.GetById(datBanId), null, "Lỗi khi lấy thông tin đặt bàn");
-            if (datBan == null)
+                    if (datBan.TrangThai != "Chờ duyệt")
+                    {
+                        return "Yêu cầu này đã được xử lý hoặc đã bị hủy bởi người dùng.";
+                    }
+
+                    datBan.TrangThai = "Đã duyệt";
+                    var ban = context.BanAn.Find(datBan.BanID);
+                    if (ban != null) ban.TrangThai = "Đang dùng";
+
+                    context.SaveChanges();
+                    return "Duyệt bàn thành công!";
+                }
+            }
+            catch (Exception ex)
             {
-                ExceptionHelper.ShowWarningMessage("Không tìm thấy yêu cầu đặt bàn!");
-                return "Không tìm thấy yêu cầu đặt bàn!";
+                ExceptionHelper.ShowErrorMessage(ex, "Lỗi hệ thống khi duyệt bàn");
+                return "Lỗi hệ thống khi duyệt bàn.";
             }
-
-            if (datBan.TrangThai != "Chờ duyệt")
-            {
-                ExceptionHelper.ShowWarningMessage("Chỉ duyệt yêu cầu đang ở trạng thái 'Chờ duyệt'!");
-                return "Chỉ duyệt yêu cầu đang ở trạng thái 'Chờ duyệt'!";
-            }
-
-            // Gọi DAL: duyệt yêu cầu
-            return ExceptionHelper.SafeExecute(() => dal.DuyetDatBan(datBanId), "Lỗi khi cập nhật trạng thái bàn", "Lỗi khi cập nhật trạng thái bàn");
         }
 
         public static string HuyDatBan(int datBanId)
@@ -129,6 +171,33 @@ namespace QuanLyNhaHang.BLL
 
             // Gọi DAL
             return ExceptionHelper.SafeExecute(() => dal.HuyDatBan(datBanId), "Lỗi khi hủy đặt bàn", "Lỗi khi hủy đặt bàn");
+        }
+        public static string ClientHuyDatBan(int datBanId, int userId)
+        {
+            return ExceptionHelper.SafeExecute(() =>
+            {
+                var datBan = dal.GetById(datBanId);
+                if (datBan == null)
+                {
+                    return "Không tìm thấy yêu cầu đặt bàn của bạn!";
+                }
+
+                if (datBan.UserID != userId)
+                {
+                    return "Bạn không có quyền hủy yêu cầu này!";
+                }
+
+                // ✨ THAY ĐỔI LOGIC KIỂM TRA TẠI ĐÂY ✨
+                // Chỉ cho phép hủy khi trạng thái là "Chờ duyệt"
+                if (datBan.TrangThai != "Chờ duyệt")
+                {
+                    return $"Không thể hủy vì yêu cầu đã được admin xử lý hoặc đã bị hủy trước đó (Trạng thái: {datBan.TrangThai}).";
+                }
+
+                // Gọi DAL để thực hiện hủy
+                return dal.HuyDatBan(datBanId);
+
+            }, "Lỗi khi hủy đặt bàn", "Đã xảy ra lỗi trong quá trình hủy đặt bàn.");
         }
 
         public static string XoaDatBan(int datBanId)

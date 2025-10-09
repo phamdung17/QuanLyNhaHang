@@ -18,6 +18,7 @@ namespace QuanLyNhaHang.UI
         private void QLHoaDon_Load(object sender, EventArgs e)
         {
             LoadHoaDon();
+            SetupTimer();
         }
 
         // Load danh sách hóa đơn
@@ -229,11 +230,28 @@ namespace QuanLyNhaHang.UI
                 MessageBox.Show("Không thể xác nhận. Hóa đơn đã thanh toán hoặc không tồn tại!");
             }
         }
-
         private void QLHoaDon_Load_1(object sender, EventArgs e)
         {
             // load danh sách hóa đơn
             LoadHoaDon();
+        }
+        private void SetupTimer()
+        {
+            // timer1 là tên mặc định của control Timer bạn kéo vào
+            timerRefresh.Interval = 10000; // 30000 mili-giây = 30 giây
+            timerRefresh.Tick += new EventHandler(timerRefresh_Tick);
+            timerRefresh.Start();
+        }
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            // Gọi lại các hàm tải dữ liệu của bạn ở đây
+            LoadHoaDon();
+
+        }
+        private void LichSuForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Dừng timer khi form đóng lại
+            timerRefresh.Stop();
         }
     }
 }

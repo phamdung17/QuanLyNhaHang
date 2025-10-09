@@ -17,6 +17,7 @@ namespace QuanLyNhaHang.UI
         private void DuyetBanAnForm_Load(object sender, EventArgs e)
         {
             LoadData();
+            SetupTimer();
         }
 
         // Load danh sách đặt bàn
@@ -114,6 +115,24 @@ namespace QuanLyNhaHang.UI
             {
                 MessageBox.Show("Vui lòng chọn yêu cầu đặt bàn!");
             }
+        }
+        private void SetupTimer()
+        {
+            // timer1 là tên mặc định của control Timer bạn kéo vào
+            timerRefresh.Interval = 10000; // 30000 mili-giây = 30 giây
+            timerRefresh.Tick += new EventHandler(timerRefresh_Tick);
+            timerRefresh.Start();
+        }
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            // Gọi lại các hàm tải dữ liệu của bạn ở đây
+            LoadData();
+
+        }
+        private void LichSuForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Dừng timer khi form đóng lại
+            timerRefresh.Stop();
         }
 
     }

@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QLHoaDon));
             this.label3 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -38,6 +39,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button5 = new System.Windows.Forms.Button();
+            this.timerRefresh = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoaDon)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +52,7 @@
             this.label3.ForeColor = System.Drawing.Color.Navy;
             this.label3.Location = new System.Drawing.Point(312, 16);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(300, 41);
+            this.label3.Size = new System.Drawing.Size(241, 32);
             this.label3.TabIndex = 19;
             this.label3.Text = "QUẢN LÝ HÓA ĐƠN";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -110,8 +112,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvHoaDon.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHoaDon.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.dgvHoaDon.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.dgvHoaDon.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvHoaDon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHoaDon.GridColor = System.Drawing.Color.LightBlue;
             this.dgvHoaDon.Location = new System.Drawing.Point(81, 60);
@@ -169,9 +171,13 @@
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.btnExportPdf_Click);
             // 
+            // timerRefresh
+            // 
+            this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
+            // 
             // QLHoaDon
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 574);
@@ -203,5 +209,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Timer timerRefresh;
     }
 }

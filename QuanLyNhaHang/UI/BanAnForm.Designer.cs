@@ -93,7 +93,7 @@ namespace QuanLyNhaHang.UI
             this.dtpThoiGian.Size = new System.Drawing.Size(200, 25);
             this.dtpThoiGian.TabIndex = 7;
             this.dtpThoiGian.Value = new System.DateTime(2025, 9, 30, 0, 0, 0, 0);
-            this.dtpThoiGian.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dateTimePicker1_KeyPress);
+            //this.dtpThoiGian.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dateTimePicker1_KeyPress);
             // 
             // label2
             // 
@@ -115,7 +115,7 @@ namespace QuanLyNhaHang.UI
             this.flowBanAn.Padding = new System.Windows.Forms.Padding(20);
             this.flowBanAn.Size = new System.Drawing.Size(444, 526);
             this.flowBanAn.TabIndex = 11;
-            this.flowBanAn.Paint += new System.Windows.Forms.PaintEventHandler(this.flowBanAn_Paint);
+           // this.flowBanAn.Paint += new System.Windows.Forms.PaintEventHandler(this.flowBanAn_Paint);
             // 
             // BanAnForm
             // 

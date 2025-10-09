@@ -30,7 +30,8 @@ namespace QuanLyNhaHang.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DuyetBanAnForm));
             this.label3 = new System.Windows.Forms.Label();
             this.bntHuy = new System.Windows.Forms.Button();
@@ -38,6 +39,7 @@ namespace QuanLyNhaHang.UI
             this.btnLoad = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.timerRefresh = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +51,7 @@ namespace QuanLyNhaHang.UI
             this.label3.ForeColor = System.Drawing.Color.Navy;
             this.label3.Location = new System.Drawing.Point(364, 11);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(226, 41);
+            this.label3.Size = new System.Drawing.Size(183, 32);
             this.label3.TabIndex = 19;
             this.label3.Text = "Danh Sách Bàn";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -77,8 +79,8 @@ namespace QuanLyNhaHang.UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.GridColor = System.Drawing.Color.LightBlue;
             this.dataGridView1.Location = new System.Drawing.Point(90, 55);
@@ -140,9 +142,13 @@ namespace QuanLyNhaHang.UI
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.btnXoa_Click);
             // 
+            // timerRefresh
+            // 
+            this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
+            // 
             // DuyetBanAnForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 574);
@@ -172,5 +178,6 @@ namespace QuanLyNhaHang.UI
         private System.Windows.Forms.Button btnLoad;
         private Button button1;
         private Button button2;
+        private Timer timerRefresh;
     }
 }

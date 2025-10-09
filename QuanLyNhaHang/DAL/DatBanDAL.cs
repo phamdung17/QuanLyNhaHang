@@ -61,6 +61,10 @@ namespace QuanLyNhaHang.DAL
             return GetByTrangThai("Đã hủy");
         }
 
+
+
+        // File: DatBanDAL.cs
+
         public string Add(int banId, int userId, DateTime ngayDat, string trangThai = "Chờ duyệt")
         {
             var ban = context.BanAn.Find(banId);
@@ -69,25 +73,37 @@ namespace QuanLyNhaHang.DAL
 
             if (ban.TrangThai != "Trống")
                 return $"Bàn {ban.TenBan} hiện đang {ban.TrangThai.ToLower()}!";
+            var existingActiveDatBan = context.DatBan
+                .Include("BanAn") 
+                .FirstOrDefault(d =>
+                    d.UserID.HasValue && d.UserID.Value == userId &&
+                    (
+                        // ✨ SỬA LỖI 2: Sửa lại trạng thái kiểm tra cho đúng logic
+                        (d.TrangThai == "Chờ duyệt" && d.BanAn.TrangThai == "Đặt trước") ||
+                        (d.TrangThai == "Đã duyệt" && d.BanAn.TrangThai == "Đang dùng")
+                    )
+                );
+
+            if (existingActiveDatBan != null)
+            {
+                return "Bạn đã đặt bàn rồi! Vui lòng hoàn tất hoặc hủy đơn cũ trước khi đặt bàn mới.";
+            }
+            // --- KẾT THÚC SỬA LỖI ---
 
             var datBan = new DatBan
             {
                 BanID = banId,
                 UserID = userId,
                 NgayDat = ngayDat,
-                TrangThai = trangThai  // <== hợp lệ với constraint
+                TrangThai = trangThai
             };
 
             context.DatBan.Add(datBan);
-
-            // Cập nhật trạng thái bàn
-            ban.TrangThai = "Đặt trước"; // <== hợp lệ với BanAn table
-
+            ban.TrangThai = "Đặt trước";
             context.SaveChanges();
 
             return $"Đặt bàn {ban.TenBan} thành công!";
         }
-
         public string UpdateTrangThai(int id, string trangThai)
         {
             var datBan = context.DatBan.Find(id);
@@ -146,7 +162,7 @@ namespace QuanLyNhaHang.DAL
             var result = UpdateTrangThai(id, "Đã hủy");
             return result;
         }
-
+        
         public string Delete(int id)
         {
             var datBan = context.DatBan.Find(id);
@@ -196,7 +212,22 @@ namespace QuanLyNhaHang.DAL
                 .OrderByDescending(d => d.NgayDat)
                 .ToList<object>();
         }
-
+        // Phương thức mới để lấy lịch sử đặt bàn cho Client UI
+        public List<object> GetLichSuDatBanForDisplay(int userId)
+        {
+            return context.DatBan
+                .Where(d => d.UserID.HasValue && d.UserID.Value == userId)
+                .OrderByDescending(d => d.NgayDat)
+                .Select(d => new
+                {
+                    d.DatBanID,
+                    // Lấy Tên Bàn từ đối tượng liên quan và kiểm tra null
+                    TenBan = d.BanAn != null ? d.BanAn.TenBan : "N/A",
+                    d.NgayDat,
+                    d.TrangThai
+                })
+                .ToList<object>();
+        }
         // Method mới: Đặt bàn (không tạo hóa đơn ngay, chỉ tạo khi order món)
         public string DatBanVaTaoHoaDon(int banId, int userId, DateTime ngayDat)
         {

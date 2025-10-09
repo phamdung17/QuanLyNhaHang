@@ -46,18 +46,37 @@ namespace QuanLyNhaHang.BLL
         // Kiểm tra khách có thể order món không
         public static string KiemTraCoTheOrder(int userId)
         {
-            // Lấy bàn đang đặt của user
-            var datBan = DatBanBLL.GetBanDaDuyetByUser(userId);
-            if (datBan == null)
-                return "Bạn chưa có bàn nào đang hoạt động hoặc chờ duyệt!";
+            try
+            {
+                using (var context = new Model1())
+                {
+                    bool hasActiveTable = context.DatBan
+                        .Any(d =>
+                            d.UserID == userId &&
+                            (
+                                (d.TrangThai == "Chờ duyệt" && d.BanAn.TrangThai == "Đặt trước") ||
+                                (d.TrangThai == "Đã duyệt" && d.BanAn.TrangThai == "Đang dùng")
+                            )
+                        );
 
-            // Cho phép order nếu bàn đang chờ duyệt hoặc đã duyệt
-            if (datBan.TrangThai == "Chờ duyệt" || datBan.TrangThai == "Đã duyệt")
-                return "OK";
-
-            return $"Bàn {datBan.BanAn?.TenBan ?? ""} hiện không khả dụng để order!";
+                    if (hasActiveTable)
+                    {
+                       
+                        return "OK";
+                    }
+                    else
+                    {
+                        
+                        return "Bạn cần đặt bàn trước khi gọi món. Bàn của bạn có thể đã được thanh toán và giải phóng.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                return "Lỗi hệ thống khi kiểm tra trạng thái bàn.";
+            }
         }
-
 
 
         public static HoaDon GetById(int hoaDonId)
@@ -70,97 +89,67 @@ namespace QuanLyNhaHang.BLL
                          .FirstOrDefault(h => h.HoaDonID == hoaDonId);
             }
         }
-
-        // Thêm món vào hóa đơn (logic mới: tạo hóa đơn khi order món đầu tiên)
+        // ✨ Thêm món vào hóa đơn, sử dụng Transaction để đảm bảo an toàn
         public static string ThemMonVaoHoaDon(int userId, int monId, int soLuong)
         {
-            // Validation đầu vào
-            if (userId <= 0)
-                return "ID người dùng không hợp lệ!";
-            
-            if (monId <= 0)
-                return "ID món ăn không hợp lệ!";
-            
-            if (soLuong <= 0)
-                return "Số lượng phải lớn hơn 0!";
-            
-            if (soLuong > 100)
-                return "Số lượng không được vượt quá 100!";
+            if (userId <= 0 || monId <= 0 || soLuong <= 0) return "Thông tin không hợp lệ!";
 
-            // Kiểm tra có thể order không
             string kiemTra = KiemTraCoTheOrder(userId);
-            if (kiemTra != "OK")
-                return kiemTra;
+            if (kiemTra != "OK") return kiemTra;
 
-            return ExceptionHelper.SafeExecute(() => 
+            try
             {
                 using (var db = new Model1())
                 {
-                    // Lấy hoặc tạo hóa đơn hiện tại
-                    var hoaDon = GetHoaDonHienTai(userId);
-                    if (hoaDon == null)
+                    using (var transaction = db.Database.BeginTransaction())
                     {
-                        // Tạo hóa đơn mới khi order món đầu tiên
-                        var datBan = db.DatBan
-    .Include("BanAn")
-    .FirstOrDefault(d => d.UserID.HasValue && d.UserID.Value == userId &&
-        (d.TrangThai == "Chờ duyệt" || d.TrangThai == "Đã duyệt"));
-
-
-                        if (datBan == null)
-                            return "Không tìm thấy thông tin đặt bàn!";
-
-                        hoaDon = new HoaDon
+                        var hoaDon = db.HoaDon.FirstOrDefault(h => h.UserID == userId && h.TrangThai == "Chưa thanh toán");
+                        if (hoaDon == null)
                         {
-                            BanID = datBan.BanID,
-                            UserID = (int?)userId, // Explicit cast to nullable int
-                            NgayLap = DateTime.Now,
-                            TongTien = 0,
-                            TrangThai = "Chưa thanh toán"
-                        };
-                        db.HoaDon.Add(hoaDon);
-                        db.SaveChanges(); // Lưu để có HoaDonID
-                    }
+                            var datBan = db.DatBan.FirstOrDefault(d => d.UserID == userId && (d.TrangThai == "Chờ duyệt" || d.TrangThai == "Đã duyệt"));
+                            if (datBan == null)
+                            {
+                                transaction.Rollback();
+                                return "Không tìm thấy bàn đã đặt hoặc bàn chưa được duyệt!";
+                            }
 
-                    var cthd = db.ChiTietHoaDon.FirstOrDefault(c => c.HoaDonID == hoaDon.HoaDonID && c.MonID == monId);
-                    var mon = db.ThucDon.Find(monId);
+                            hoaDon = new HoaDon { BanID = datBan.BanID, UserID = userId, NgayLap = DateTime.Now, TrangThai = "Chưa thanh toán" };
+                            db.HoaDon.Add(hoaDon);
+                            db.SaveChanges();
+                        }
 
-                    if (mon == null) 
-                        return "Không tìm thấy món ăn!";
-
-                    if (mon.TrangThai != true || mon.TrangThai == null)
-                        return "Món ăn hiện không có sẵn!";
-
-                    if (cthd != null)
-                    {
-                        cthd.SoLuong += soLuong;
-                    }
-                    else
-                    {
-                        cthd = new ChiTietHoaDon
+                        var mon = db.ThucDon.Find(monId);
+                        if (mon == null || mon.TrangThai != true)
                         {
-                            HoaDonID = hoaDon.HoaDonID,
-                            MonID = monId,
-                            SoLuong = soLuong,
-                            DonGia = mon.DonGia
-                        };
-                        db.ChiTietHoaDon.Add(cthd);
-                    }
+                            transaction.Rollback();
+                            return "Món ăn không có sẵn!";
+                        }
 
-                    // Cập nhật tổng tiền
-                    var hd = db.HoaDon.Find(hoaDon.HoaDonID);
-                    if (hd != null)
-                    {
-                        hd.TongTien = db.ChiTietHoaDon
-                                        .Where(c => c.HoaDonID == hoaDon.HoaDonID)
-                                        .AsEnumerable()
-                                        .Sum(c => Convert.ToDecimal(c.SoLuong) * c.DonGia);
-                    }
+                        var chiTiet = db.ChiTietHoaDon.FirstOrDefault(c => c.HoaDonID == hoaDon.HoaDonID && c.MonID == monId);
+                        if (chiTiet != null)
+                        {
+                            chiTiet.SoLuong += soLuong;
+                        }
+                        else
+                        {
+                            db.ChiTietHoaDon.Add(new ChiTietHoaDon { HoaDonID = hoaDon.HoaDonID, MonID = monId, SoLuong = soLuong, DonGia = mon.DonGia });
+                        }
+                        db.SaveChanges();
 
-                    db.SaveChanges();
-                    return $"Đã thêm {soLuong} {mon.TenMon} vào hóa đơn!";
+                        var danhSachMon = db.ChiTietHoaDon.Where(c => c.HoaDonID == hoaDon.HoaDonID).ToList();
+                        hoaDon.TongTien = danhSachMon.Sum(c => c.SoLuong * c.DonGia);
+                        db.SaveChanges();
+
+                        transaction.Commit();
+                        return $"Đã thêm {soLuong} {mon.TenMon} vào hóa đơn!";
+                    }
                 }
-            }, "Lỗi khi thêm món vào hóa đơn", "Lỗi khi thêm món vào hóa đơn");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi thêm món vào hóa đơn");
+                return "Lỗi hệ thống khi thêm món vào hóa đơn.";
+            }
         }
 
         // Thêm món vào hóa đơn (method cũ - giữ lại để tương thích)
@@ -411,30 +400,69 @@ namespace QuanLyNhaHang.BLL
         }
 
 
-        // xác định trạng thái của hóa đơn
+        // ✨ Xác nhận thanh toán, kiểm tra trạng thái nghiêm ngặt
         public static bool XacNhanThanhToan(int hoaDonId)
         {
-            using (var db = new Model1())
+            try
             {
-                var hd = db.HoaDon.FirstOrDefault(h => h.HoaDonID == hoaDonId);
+                using (var db = new Model1())
+                {
+                    // Tìm hóa đơn cần thanh toán
+                    var hd = db.HoaDon.FirstOrDefault(h => h.HoaDonID == hoaDonId);
 
-                if (hd == null)
-                    return false;
+                    // Kiểm tra nếu hóa đơn không tồn tại hoặc đã thanh toán rồi
+                    if (hd == null)
+                    {
+                        ExceptionHelper.ShowWarningMessage("Không tìm thấy hóa đơn!");
+                        return false;
+                    }
 
-                if (hd.TrangThai == "Đã thanh toán")
-                    return false; // tránh xác nhận trùng
+                    if (hd.TrangThai == "Đã thanh toán")
+                    {
+                        ExceptionHelper.ShowWarningMessage("Hóa đơn này đã được thanh toán trước đó!");
+                        return false;
+                    }
 
-                hd.TrangThai = "Đã thanh toán";
-                hd.NgayLap = DateTime.Now; // cập nhật thời gian thanh toán
+                    // --- LOGIC KIỂM TRA TRẠNG THÁI ĐẶT BÀN ---
+                    // Tìm yêu cầu đặt bàn gần nhất liên quan đến hóa đơn này (dựa trên UserID và BanID)
+                    var datBan = db.DatBan
+                        .Where(d => d.UserID == hd.UserID && d.BanID == hd.BanID && d.TrangThai != "Đã hủy")
+                        .OrderByDescending(d => d.NgayDat)
+                        .FirstOrDefault();
 
-                // cập nhật trạng thái bàn về "Trống"
-                var ban = db.BanAn.FirstOrDefault(b => b.BanID == hd.BanID);
-                if (ban != null)
-                    ban.TrangThai = "Trống";
+                    // Nếu tìm thấy yêu cầu đặt bàn và nó đang ở trạng thái "Chờ duyệt"
+                    if (datBan != null && datBan.TrangThai == "Chờ duyệt")
+                    {
+                        // Hiển thị thông báo và không cho thanh toán
+                        ExceptionHelper.ShowWarningMessage("Đơn chưa được duyệt bởi admin, yêu cầu duyệt trước khi thanh toán!");
+                        return false;
+                    }
+                    // --- KẾT THÚC LOGIC MỚI ---
 
-                db.SaveChanges();
-                return true;
+                    // Nếu đã được duyệt (hoặc không có đơn đặt bàn liên quan), tiến hành thanh toán
+                    hd.TrangThai = "Đã thanh toán";
+                    hd.NgayLap = DateTime.Now; // Cập nhật lại thời gian thành thời gian thanh toán
+
+                    // Cập nhật trạng thái bàn về "Trống"
+                    var ban = db.BanAn.FirstOrDefault(b => b.BanID == hd.BanID);
+                    if (ban != null)
+                    {
+                        ban.TrangThai = "Trống";
+                    }
+
+                    db.SaveChanges(); // Lưu tất cả các thay đổi vào cơ sở dữ liệu
+                    return true; // Trả về true để báo hiệu thanh toán thành công
+                }
             }
+            catch (Exception ex)
+            {
+                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi xác nhận thanh toán");
+                return false; // Trả về false nếu có lỗi hệ thống
+            }
+        }
+        public static List<object> GetLichSuHoaDonByUser(int userId)
+        {
+            return ExceptionHelper.SafeExecute(() => hoaDonDAL.GetLichSuHoaDonForDisplay(userId), new List<object>(), "Lỗi khi lấy lịch sử hóa đơn.");
         }
 
         #endregion
