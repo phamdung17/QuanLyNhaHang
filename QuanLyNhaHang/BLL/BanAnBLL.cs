@@ -62,7 +62,7 @@ namespace QuanLyNhaHang.BLL
 
         public static string SuaBan(int banId, string tenBan, string trangThai)
         {
-            // Validation
+            // 1. Validation các thông tin đầu vào
             if (!ExceptionHelper.ValidateStringAndShowError(tenBan, "Tên bàn"))
                 return "Tên bàn không hợp lệ!";
 
@@ -72,36 +72,96 @@ namespace QuanLyNhaHang.BLL
                 return "Trạng thái bàn không hợp lệ!";
             }
 
-            // Business logic: Kiểm tra tên bàn trùng (trừ bàn hiện tại)
-            var existingBan = GetAll().FirstOrDefault(b => b.BanID != banId && b.TenBan.Equals(tenBan, StringComparison.OrdinalIgnoreCase));
-            if (existingBan != null)
+            // 2. Sử dụng Transaction để đảm bảo toàn vẹn dữ liệu khi sửa nhiều bảng
+            try
             {
-                ExceptionHelper.ShowWarningMessage("Tên bàn đã tồn tại!");
-                return "Tên bàn đã tồn tại!";
-            }
+                using (var context = new Model1())
+                {
+                    using (var transaction = context.Database.BeginTransaction())
+                    {
+                        // Lấy thông tin bàn hiện tại từ CSDL
+                        var banHienTai = context.BanAn.FirstOrDefault(b => b.BanID == banId);
+                        if (banHienTai == null)
+                        {
+                            transaction.Rollback();
+                            return "Không tìm thấy bàn để cập nhật!";
+                        }
 
-            // Gọi DAL
-            return ExceptionHelper.SafeExecute(() => dal.Update(banId, tenBan, trangThai), "Lỗi khi cập nhật bàn ăn", "Lỗi khi cập nhật bàn ăn");
+                        // ✨ LOGIC KIỂM TRA MỚI ✨
+                        // Nếu bàn đang có người dùng ("Đang dùng" hoặc "Đặt trước") và admin muốn chuyển về "Trống"
+                        if ((banHienTai.TrangThai == "Đang dùng" || banHienTai.TrangThai == "Đặt trước") && trangThai == "Trống")
+                        {
+                            // Kiểm tra xem bàn có hóa đơn "Chưa thanh toán" hay không
+                            bool coHoaDon = context.HoaDon.Any(h => h.BanID == banId && h.TrangThai == "Chưa thanh toán");
+
+                            if (coHoaDon)
+                            {
+                                // Nếu có hóa đơn, không cho sửa và báo lỗi
+                                transaction.Rollback();
+                                return "Không thể sửa bàn về 'Trống' vì còn hóa đơn chưa thanh toán. Vui lòng xử lý hóa đơn trước!";
+                            }
+                            else
+                            {
+                                // Nếu không có hóa đơn, tìm và hủy đơn đặt bàn tương ứng
+                                var datBan = context.DatBan.FirstOrDefault(d => d.BanID == banId && (d.TrangThai == "Đã duyệt" || d.TrangThai == "Chờ duyệt"));
+                                if (datBan != null)
+                                {
+                                    datBan.TrangThai = "Đã hủy";
+                                }
+                            }
+                        }
+                        // --- KẾT THÚC LOGIC MỚI ---
+
+                        // 3. Kiểm tra tên bàn trùng (trừ bàn hiện tại)
+                        if (context.BanAn.Any(b => b.BanID != banId && b.TenBan.Equals(tenBan, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            transaction.Rollback();
+                            return "Tên bàn này đã tồn tại!";
+                        }
+
+                        // 4. Cập nhật thông tin bàn và lưu tất cả thay đổi
+                        banHienTai.TenBan = tenBan;
+                        banHienTai.TrangThai = trangThai;
+
+                        context.SaveChanges();
+                        transaction.Commit(); // Hoàn tất giao dịch
+
+                        return "Sửa bàn thành công!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHelper.ShowErrorMessage(ex, "Lỗi hệ thống khi sửa bàn");
+                return "Đã xảy ra lỗi hệ thống khi sửa bàn.";
+            }
         }
 
         public static string XoaBan(int banId)
         {
-            // Business logic: Kiểm tra bàn có thể xóa không
-            var ban = GetById(banId);
+            // 1. Lấy thông tin bàn từ CSDL
+            var ban = dal.GetById(banId);
             if (ban == null)
             {
-                ExceptionHelper.ShowWarningMessage("Không tìm thấy bàn cần xóa!");
                 return "Không tìm thấy bàn cần xóa!";
             }
 
-            if (ban.TrangThai == "Đang Dùng")
+            // 2. ✨ KIỂM TRA NGHIÊM NGẶT ✨
+            // Regel 1: Không cho xóa nếu bàn đang "Đang dùng"
+            if (ban.TrangThai == "Đang dùng")
             {
-                ExceptionHelper.ShowWarningMessage("Không thể xóa bàn đang được sử dụng!");
                 return "Không thể xóa bàn đang được sử dụng!";
             }
 
-            // Gọi DAL
-            return ExceptionHelper.SafeExecute(() => dal.Delete(banId), "Lỗi khi xóa bàn ăn", "Lỗi khi xóa bàn ăn");
+            // Regel 2: Không cho xóa nếu bàn có hóa đơn "Chưa thanh toán"
+            if (HoaDonBLL.BanCoHoaDonChuaThanhToan(banId))
+            {
+                return "Không thể xóa bàn vì còn hóa đơn chưa thanh toán!";
+            }
+
+            // 3. Nếu tất cả kiểm tra đều qua, gọi DAL để thực hiện xóa
+            // DAL sẽ lo việc xóa dữ liệu liên quan (hóa đơn, đặt bàn)
+            return dal.Delete(banId);
         }
 
         public static string CapNhatTrangThai(int banId, string trangThai)

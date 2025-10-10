@@ -464,7 +464,14 @@ namespace QuanLyNhaHang.BLL
         {
             return ExceptionHelper.SafeExecute(() => hoaDonDAL.GetLichSuHoaDonForDisplay(userId), new List<object>(), "Lỗi khi lấy lịch sử hóa đơn.");
         }
+        // bàn có hóa đơn chưa thanh toán
+        // File: HoaDonBLL.cs
 
+        public static bool BanCoHoaDonChuaThanhToan(int banId)
+        {
+            // Giả sử bạn đã có hoaDonDAL được khai báo: private static HoaDonDAL hoaDonDAL = new HoaDonDAL();
+            return hoaDonDAL.KiemTraTonTaiHoaDonChuaThanhToan(banId);
+        }
         #endregion
     }
 }

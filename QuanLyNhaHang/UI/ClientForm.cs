@@ -57,7 +57,7 @@ namespace QuanLyNhaHang
             => OpenChildForm(new LichSuForm(currentUser));
 
         private void btnTkClient_Click(object sender, EventArgs e)
-            => OpenChildForm(new TKclientForm());
+            => OpenChildForm(new TKclientForm(currentUser));
 
         private void btnDangXuat_Click(object sender, EventArgs e)
         {

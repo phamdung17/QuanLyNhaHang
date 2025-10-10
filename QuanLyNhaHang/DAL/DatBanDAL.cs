@@ -162,20 +162,62 @@ namespace QuanLyNhaHang.DAL
             var result = UpdateTrangThai(id, "Đã hủy");
             return result;
         }
-        
+
         public string Delete(int id)
         {
-            var datBan = context.DatBan.Find(id);
-            if (datBan == null)
-                return "Không tìm thấy yêu cầu đặt bàn!";
+            // ✨ SỬ DỤNG TRANSACTION ĐỂ ĐẢM BẢO AN TOÀN KHI XÓA NHIỀU DỮ LIỆU LIÊN QUAN
+            using (var context = new Model1())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var ban = context.BanAn.Find(id);
+                        if (ban == null)
+                        {
+                            transaction.Rollback();
+                            return "Không tìm thấy bàn!";
+                        }
 
-            // Chỉ cho phép xóa yêu cầu đã hủy
-            if (datBan.TrangThai != "Đã hủy")
-                return "Chỉ có thể xóa yêu cầu đã hủy!";
+                        // ✨ XÓA DỮ LIỆU LIÊN QUAN TRƯỚC KHI XÓA BÀN ✨
 
-            context.DatBan.Remove(datBan);
-            context.SaveChanges();
-            return "Xóa yêu cầu đặt bàn thành công!";
+                        // 1. Tìm và xóa tất cả hóa đơn liên quan (bao gồm cả chi tiết)
+                        var hoaDons = context.HoaDon.Where(h => h.BanID == id).ToList();
+                        if (hoaDons.Any())
+                        {
+                            foreach (var hd in hoaDons)
+                            {
+                                // Xóa các chi tiết hóa đơn của từng hóa đơn
+                                var chiTietHDs = context.ChiTietHoaDon.Where(ct => ct.HoaDonID == hd.HoaDonID).ToList();
+                                context.ChiTietHoaDon.RemoveRange(chiTietHDs);
+                            }
+                            // Xóa tất cả hóa đơn của bàn đó
+                            context.HoaDon.RemoveRange(hoaDons);
+                        }
+
+                        // 2. Tìm và xóa tất cả các yêu cầu đặt bàn liên quan
+                        var datBans = context.DatBan.Where(d => d.BanID == id).ToList();
+                        if (datBans.Any())
+                        {
+                            context.DatBan.RemoveRange(datBans);
+                        }
+
+                        // 3. Cuối cùng, xóa bàn ăn
+                        context.BanAn.Remove(ban);
+
+                        // Lưu tất cả các thay đổi vào CSDL
+                        context.SaveChanges();
+                        transaction.Commit(); // Hoàn tất giao dịch
+
+                        return "Xóa bàn và tất cả dữ liệu liên quan thành công!";
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback(); // Hoàn tác nếu có lỗi xảy ra
+                        return "Đã xảy ra lỗi hệ thống khi xóa bàn: " + ex.Message;
+                    }
+                }
+            }
         }
 
         public bool IsUserCoBanDaDuyet(int userId)

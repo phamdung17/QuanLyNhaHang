@@ -66,6 +66,7 @@ namespace QuanLyNhaHang.UI
             this.dataGridView1.Size = new System.Drawing.Size(598, 281);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
             // cboTrangThai
             // 
@@ -80,7 +81,7 @@ namespace QuanLyNhaHang.UI
             "Đang dùng"});
             this.cboTrangThai.Location = new System.Drawing.Point(444, 388);
             this.cboTrangThai.Name = "cboTrangThai";
-            this.cboTrangThai.Size = new System.Drawing.Size(150, 31);
+            this.cboTrangThai.Size = new System.Drawing.Size(150, 25);
             this.cboTrangThai.TabIndex = 1;
             // 
             // btnThem
@@ -107,7 +108,7 @@ namespace QuanLyNhaHang.UI
             this.label1.ForeColor = System.Drawing.Color.Navy;
             this.label1.Location = new System.Drawing.Point(94, 393);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 23);
+            this.label1.Size = new System.Drawing.Size(61, 19);
             this.label1.TabIndex = 3;
             this.label1.Text = "Tên bàn";
             // 
@@ -119,7 +120,7 @@ namespace QuanLyNhaHang.UI
             this.label2.ForeColor = System.Drawing.Color.Navy;
             this.label2.Location = new System.Drawing.Point(344, 393);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(92, 23);
+            this.label2.Size = new System.Drawing.Size(76, 19);
             this.label2.TabIndex = 4;
             this.label2.Text = "Trạng thái";
             // 
@@ -179,7 +180,7 @@ namespace QuanLyNhaHang.UI
             this.txtTenBan.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtTenBan.Location = new System.Drawing.Point(154, 388);
             this.txtTenBan.Name = "txtTenBan";
-            this.txtTenBan.Size = new System.Drawing.Size(150, 30);
+            this.txtTenBan.Size = new System.Drawing.Size(150, 25);
             this.txtTenBan.TabIndex = 8;
             // 
             // label3
@@ -190,14 +191,14 @@ namespace QuanLyNhaHang.UI
             this.label3.ForeColor = System.Drawing.Color.Navy;
             this.label3.Location = new System.Drawing.Point(298, 37);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(205, 37);
+            this.label3.Size = new System.Drawing.Size(166, 30);
             this.label3.TabIndex = 9;
             this.label3.Text = "Danh Sách Bàn";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // QLBanAnForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 574);

@@ -27,14 +27,41 @@ namespace QuanLyNhaHang.UI
 
         private void LoadData()
         {
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = bll.GetAll();
+            try
+            {
+                // Giả sử bll là instance của ThucDonBLL
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = bll.GetAll();
 
-            // Tùy chỉnh hiển thị cột
-            dataGridView1.Columns["ChiTietHoaDon"].Visible = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                // ✨ THÊM ĐOẠN CODE NÀY ĐỂ ĐẶT LẠI TÊN CỘT ✨
+                if (dataGridView1.Columns.Count > 0)
+                {
+                    dataGridView1.Columns["MonID"].HeaderText = "Mã Món";
+                    dataGridView1.Columns["TenMon"].HeaderText = "Tên Món Ăn";
+                    dataGridView1.Columns["DonGia"].HeaderText = "Đơn Giá";
+                    dataGridView1.Columns["DonViTinh"].HeaderText = "Đơn Vị Tính";
+                    dataGridView1.Columns["TrangThai"].HeaderText = "Trạng Thái";
 
-            selectedID = 0;
+                    // Định dạng cột tiền tệ cho dễ đọc (tùy chọn)
+                    dataGridView1.Columns["DonGia"].DefaultCellStyle.Format = "N0";
+                }
+
+                // Ẩn các cột không cần thiết (navigation property)
+                if (dataGridView1.Columns.Contains("ChiTietHoaDon"))
+                {
+                    dataGridView1.Columns["ChiTietHoaDon"].Visible = false;
+                }
+
+                // Tự động điều chỉnh độ rộng cột cho vừa với nội dung
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                // Reset lại ID đang được chọn
+                selectedID = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải danh sách thực đơn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

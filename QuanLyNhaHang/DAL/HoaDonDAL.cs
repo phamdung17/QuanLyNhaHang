@@ -256,5 +256,10 @@ namespace QuanLyNhaHang.DAL
                 .OrderByDescending(h => h.NgayLap) // Sắp xếp hóa đơn mới nhất lên đầu
                 .ToList<object>();
         }
+       // kiểm tra hóa đơn tồn  tại chưa thanh toán
+        public bool KiemTraTonTaiHoaDonChuaThanhToan(int banId)
+        {
+            return context.HoaDon.Any(h => h.BanID == banId && h.TrangThai == "Chưa thanh toán");
+        }
     }
 }

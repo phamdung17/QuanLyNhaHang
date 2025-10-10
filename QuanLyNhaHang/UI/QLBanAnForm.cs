@@ -35,6 +35,35 @@ namespace QuanLyNhaHang.UI
             dataGridView1.Columns["TenBan"].HeaderText = "Tên bàn";
             dataGridView1.Columns["TrangThai"].HeaderText = "Trạng thái";
         }
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Kiểm tra xem có phải cột "Trạng thái" không
+            if (this.dataGridView1.Columns[e.ColumnIndex].Name == "TrangThai")
+            {
+                if (e.Value != null)
+                {
+                    // Lấy giá trị trạng thái của dòng hiện tại
+                    string trangThai = e.Value.ToString();
+
+                    // Đặt màu nền cho cả dòng dựa trên trạng thái
+                    switch (trangThai)
+                    {
+                        case "Trống":
+                            e.CellStyle.BackColor = Color.LightGreen;
+                            e.CellStyle.ForeColor = Color.DarkGreen;
+                            break;
+                        case "Đặt trước":
+                            e.CellStyle.BackColor = Color.LightGoldenrodYellow;
+                            e.CellStyle.ForeColor = Color.DarkGoldenrod;
+                            break;
+                        case "Đang dùng":
+                            e.CellStyle.BackColor = Color.LightCoral;
+                            e.CellStyle.ForeColor = Color.DarkRed;
+                            break;
+                    }
+                }
+            }
+        }
 
         // Khi chọn 1 dòng trong datagridview
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
