@@ -129,7 +129,7 @@ namespace QuanLyNhaHang.UI
                 sb.AppendLine("📄 HÓA ĐƠN THANH TOÁN");
                 sb.AppendLine("--------------------------------------");
                 sb.AppendLine($"Mã hóa đơn: {hoaDon.HoaDonID}");
-                sb.AppendLine($"Bàn: {hoaDon.BanAn?.TenBan}");
+                sb.AppendLine($"{hoaDon.BanAn?.TenBan}");
                 sb.AppendLine($"Khách hàng: {hoaDon.NguoiDung?.HoTen}");
                 sb.AppendLine($"Ngày lập: {hoaDon.NgayLap:dd/MM/yyyy HH:mm}");
                 sb.AppendLine("--------------------------------------");

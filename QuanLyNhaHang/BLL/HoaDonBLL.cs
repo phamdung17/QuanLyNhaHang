@@ -354,7 +354,7 @@ namespace QuanLyNhaHang.BLL
                 // 🔹 Thông tin hóa đơn
                 doc.Add(new Paragraph($"Mã hóa đơn: {hd.HoaDonID}", textFont));
                 doc.Add(new Paragraph($"Ngày: {hd.NgayLap:dd/MM/yyyy HH:mm}", textFont));
-                doc.Add(new Paragraph($"Bàn: {hd.BanAn?.TenBan}", textFont));
+                doc.Add(new Paragraph($"{hd.BanAn?.TenBan}", textFont));
                 doc.Add(new Paragraph($"Khách hàng: {hd.NguoiDung?.HoTen}", textFont));
                 doc.Add(new Paragraph("\n"));
 
