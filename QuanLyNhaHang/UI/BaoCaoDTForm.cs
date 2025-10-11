@@ -2,14 +2,13 @@
 using QuanLyNhaHang.Utils;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace QuanLyNhaHang.UI
 {
@@ -18,334 +17,189 @@ namespace QuanLyNhaHang.UI
         public BaoCaoDTForm()
         {
             InitializeComponent();
-            InitializeChart();
-            LoadDefaultData();
-        }
-
-        #region Khởi tạo
-
-        private void InitializeChart()
-        {
-            // Cấu hình biểu đồ
-            chart1.ChartAreas[0].AxisX.Title = "Thời gian";
-            chart1.ChartAreas[0].AxisY.Title = "Doanh thu (VNĐ)";
-            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "N0";
-            chart1.ChartAreas[0].BackColor = Color.White;
-            chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-            chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
-            
-            // Cấu hình legend
-            chart1.Legends[0].Docking = Docking.Bottom;
-            chart1.Legends[0].Alignment = StringAlignment.Center;
-        }
-
-        private void LoadDefaultData()
-        {
-            // Mặc định: thống kê theo THÁNG hiện tại
-            var firstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            var lastDay = firstDay.AddMonths(1).AddTicks(-1); // đến hết tháng
-            dtpTuNgay.Value = firstDay;
-            dtpDenNgay.Value = lastDay;
-            
-            LoadTongQuan();
+            InitializeForm();
            
         }
 
-        #endregion
-
-        #region Load Dữ liệu
-
-        private void LoadTongQuan()
+        /// <summary>
+        /// Thiết lập các giá trị mặc định khi form được mở.
+        /// </summary>
+        private void InitializeForm()
         {
-            try
-            {
-                var tongQuan = RevenueBLL.GetTongQuanDoanhThu(dtpTuNgay.Value, dtpDenNgay.Value);
-                if (tongQuan != null)
-                {
-                    dynamic data = tongQuan;
-                    lblTongDoanhThu.Text = RevenueBLL.FormatCurrency(data.TongDoanhThu);
-                   
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải tổng quan doanh thu");
-            }
+            // Cấu hình ô chọn năm
+            numNam.Minimum = 2020;
+            numNam.Maximum = 2050;
+            numNam.Value = DateTime.Now.Year;
+
+            // Cấu hình giao diện biểu đồ
+            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "N0";
+            chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+
+            
+            // Tải dữ liệu mặc định cho năm hiện tại khi mở form
+            LoadBaoCaoTheoQuy();
         }
 
-        private void LoadDoanhThuTheoNgay()
+        /// <summary>
+        /// Hàm chính để tải và hiển thị dữ liệu doanh thu theo quý.
+        /// </summary>
+        private void LoadBaoCaoTheoQuy()
         {
             try
             {
-                var start = dtpTuNgay.Value.Date;
-                var end = dtpDenNgay.Value.Date.AddDays(1).AddTicks(-1);
-                var data = RevenueBLL.GetDoanhThuTheoNgay(start, end);
-                if (data == null || data.Count == 0)
+                int nam = (int)numNam.Value;
+
+                // 1. Gọi BLL để lấy dữ liệu cho biểu đồ
+                var dataBieuDo = RevenueBLL.GetDoanhThuTheoQuy(nam);
+
+                // 2. Gọi BLL để lấy tổng doanh thu cho Label
+                decimal tongDoanhThuNam = RevenueBLL.GetTongDoanhThuNam(nam);
+                lblTongDoanhThu.Text = RevenueBLL.FormatCurrency(tongDoanhThuNam);
+
+                // 3. Kiểm tra dữ liệu và hiển thị
+                if (dataBieuDo == null || dataBieuDo.Count == 0)
                 {
-                    MessageBox.Show("Không có doanh thu trong khoảng thời gian đã chọn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    chart1.Series.Clear();
-                    chart1.Titles.Clear();
+                    MessageBox.Show($"Không có dữ liệu doanh thu cho năm {nam}!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    chart1.Series.Clear(); // Xóa biểu đồ cũ
                     return;
                 }
-                UpdateChart(data, "Doanh thu theo ngày");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải doanh thu theo ngày");
-            }
-        }
 
-        // Thống kê theo khoảng thời gian tùy chọn (chuẩn hóa đầu-cuối ngày)
-        private void LoadDoanhThuTheoKhoangThoiGian()
-        {
-            try
-            {
-                var start = dtpTuNgay.Value.Date; // 00:00:00
-                var end = dtpDenNgay.Value.Date.AddDays(1).AddTicks(-1); // 23:59:59.999...
+                // 4. Xóa dữ liệu cũ và chuẩn bị hiển thị
+                chart1.Series.Clear();
+                chart1.Titles.Clear();
+                chart1.Titles.Add($"Doanh thu các quý trong năm {nam}");
 
-                var data = RevenueBLL.GetDoanhThuTheoNgay(start, end);
-                if (data == null || data.Count == 0)
+                var series = new Series("Doanh thu")
                 {
-                    MessageBox.Show("Không có doanh thu trong khoảng thời gian đã chọn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    chart1.Series.Clear();
-                    chart1.Titles.Clear();
-                    return;
-                }
-                string title = $"Doanh thu theo ngày ({start:dd/MM/yyyy} - {end:dd/MM/yyyy})";
-                UpdateChart(data, title);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải doanh thu theo khoảng thời gian");
-            }
-        }
-
-        private void LoadDoanhThuTheoThang()
-        {
-            try
-            {
-                int nam = dtpDenNgay.Value.Year;
-                var data = RevenueBLL.GetDoanhThuTheoThang(nam);
-                UpdateChart(data, "Doanh thu theo tháng");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải doanh thu theo tháng");
-            }
-        }
-
-        private void LoadDoanhThuTheoQuy()
-        {
-            try
-            {
-                int nam = dtpDenNgay.Value.Year;
-                var data = RevenueBLL.GetDoanhThuTheoQuy(nam);
-                UpdateChart(data, "Doanh thu theo quý");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải doanh thu theo quý");
-            }
-        }
-
-        private void LoadDoanhThuTheoNam()
-        {
-            try
-            {
-                int nam = dtpDenNgay.Value.Year;
-                var data = RevenueBLL.GetDoanhThuTheoNam(nam, nam);
-                UpdateChart(data, "Doanh thu theo năm");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải doanh thu theo năm");
-            }
-        }
-
-        private void LoadTopMonAnBanChay()
-        {
-            try
-            {
-                var data = RevenueBLL.GetTopMonAnBanChay(10, dtpTuNgay.Value, dtpDenNgay.Value);
-                UpdateChart(data, "Top món ăn bán chạy");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải top món ăn bán chạy");
-            }
-        }
-
-        private void LoadThongKeTheoBan()
-        {
-            try
-            {
-                var data = RevenueBLL.GetThongKeTheoBan(dtpTuNgay.Value, dtpDenNgay.Value);
-                UpdateChart(data, "Thống kê theo bàn");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải thống kê theo bàn");
-            }
-        }
-
-        #endregion
-
-        #region Cập nhật Biểu đồ
-
-        private void UpdateChart(List<object> data, string title)
-        {
-            chart1.Series.Clear();
-            chart1.Titles.Clear();
-            
-            chart1.Titles.Add(title);
-            
-            var series = new Series("Doanh thu")
-            {
-                ChartType = SeriesChartType.Column,
-                Color = Color.DodgerBlue,
-                BorderWidth = 2
-            };
-
-            foreach (dynamic item in data)
-            {
-                string xValue = "";
-                decimal yValue = 0;
-
-                // Xác định giá trị X và Y dựa trên loại dữ liệu
-                if (item.GetType().GetProperty("Ngay") != null)
-                {
-                    xValue = ((DateTime)item.Ngay).ToString("dd/MM");
-                    yValue = item.TongTien;
-                }
-                else if (item.GetType().GetProperty("Thang") != null)
-                {
-                    xValue = $"Tháng {item.Thang}";
-                    yValue = item.TongTien;
-                }
-                else if (item.GetType().GetProperty("Quy") != null)
-                {
-                    xValue = $"Quý {item.Quy}";
-                    yValue = item.TongTien;
-                }
-                else if (item.GetType().GetProperty("Nam") != null)
-                {
-                    xValue = $"Năm {item.Nam}";
-                    yValue = item.TongTien;
-                }
-                else if (item.GetType().GetProperty("TenMon") != null)
-                {
-                    xValue = item.TenMon;
-                    yValue = item.TongSoLuong;
-                }
-                else if (item.GetType().GetProperty("TenBan") != null)
-                {
-                    xValue = item.TenBan;
-                    yValue = item.TongDoanhThu;
-                }
-
-                series.Points.AddXY(xValue, yValue);
-            }
-
-            chart1.Series.Add(series);
-        }
-
-        #endregion
-
-        #region Sự kiện
-
-        private void btnThongKe_Click(object sender, EventArgs e)
-        {
-            if (dtpTuNgay.Value > dtpDenNgay.Value)
-            {
-                ExceptionHelper.ShowWarningMessage("Ngày bắt đầu không được lớn hơn ngày kết thúc!");
-                return;
-            }
-            // Theo khoảng thời gian do người dùng chọn
-            LoadDoanhThuTheoKhoangThoiGian();
-        }
-
-  
-
-        private void btnTheoThang_Click(object sender, EventArgs e)
-        {
-            LoadDoanhThuTheoThang();
-        }
-
-        private void btnTheoQuy_Click(object sender, EventArgs e)
-        {
-            LoadDoanhThuTheoQuy();
-        }
-
-        private void btnTheoNam_Click(object sender, EventArgs e)
-        {
-            LoadDoanhThuTheoNam();
-        }
-
-        private void btnTopMonAn_Click(object sender, EventArgs e)
-        {
-            LoadTopMonAnBanChay();
-        }
-
-        private void btnTheoBan_Click(object sender, EventArgs e)
-        {
-            LoadThongKeTheoBan();
-        }
-
-        private void btnXuatBaoCao_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveFileDialog saveDialog = new SaveFileDialog
-                {
-                    Filter = "Excel files (*.xlsx)|*.xlsx|PDF files (*.pdf)|*.pdf",
-                    Title = "Xuất báo cáo doanh thu"
+                    ChartType = SeriesChartType.Line, // <-- THAY ĐỔI Ở ĐÂY
+                    IsValueShownAsLabel = true,
+                    LabelFormat = "N0",
+                    BorderWidth = 3, // Làm cho đường kẻ dày hơn
+                    MarkerStyle = MarkerStyle.Circle, // Thêm dấu tròn ở các điểm dữ liệu
+                    MarkerSize = 8
                 };
 
-                if (saveDialog.ShowDialog() == DialogResult.OK)
+                // 5. Nạp dữ liệu vào biểu đồ
+                foreach (dynamic item in dataBieuDo)
                 {
-                    string filePath = saveDialog.FileName;
-                    string extension = System.IO.Path.GetExtension(filePath).ToLower();
-
-                    if (extension == ".xlsx")
-                    {
-                        ExportToExcel(filePath);
-                    }
-                    else if (extension == ".pdf")
-                    {
-                        ExportToPDF(filePath);
-                    }
-
-                    ExceptionHelper.ShowSuccessMessage("Xuất báo cáo thành công!");
+                    series.Points.AddXY($"Quý {item.Quy}", item.TongTien);
                 }
+
+                chart1.Series.Add(series);
             }
             catch (Exception ex)
             {
-                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi xuất báo cáo");
+                ExceptionHelper.ShowErrorMessage(ex, "Lỗi khi tải báo cáo doanh thu theo quý");
             }
         }
 
-        #endregion
-
-        #region Xuất báo cáo
-
-        private void ExportToExcel(string filePath)
+        /// <summary>
+        /// Sự kiện click nút Thống Kê: Tải lại dữ liệu theo năm đã chọn.
+        /// </summary>
+        private void btnThongKe_Click(object sender, EventArgs e)
         {
-            // TODO: Implement Excel export
-            ExceptionHelper.ShowInfoMessage("Tính năng xuất Excel đang được phát triển!");
+            LoadBaoCaoTheoQuy();
         }
 
+        /// <summary>
+        /// Sự kiện click nút Xuất Báo Cáo.
+        /// </summary>
+        private void btnXuatBaoCao_Click(object sender, EventArgs e)
+        {
+            if (chart1.Series.Count == 0 || chart1.Series[0].Points.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SaveFileDialog saveDialog = new SaveFileDialog
+            {
+                Filter = "PDF files (*.pdf)|*.pdf",
+                Title = "Xuất báo cáo doanh thu",
+                FileName = $"BaoCaoDoanhThuQuy_Nam{numNam.Value}_{DateTime.Now:ddMMyyyy}.pdf"
+            };
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                ExportToPDF(saveDialog.FileName);
+            }
+        }
+
+        /// <summary>
+        /// Hàm thực hiện việc xuất dữ liệu ra file PDF.
+        /// </summary>
         private void ExportToPDF(string filePath)
         {
-            // TODO: Implement PDF export
-            ExceptionHelper.ShowInfoMessage("Tính năng xuất PDF đang được phát triển!");
-        }
+            try
+            {
+                // Lưu ảnh biểu đồ vào bộ nhớ
+                using (MemoryStream chartImageStream = new MemoryStream())
+                {
+                    chart1.SaveImage(chartImageStream, ChartImageFormat.Png);
+                    iTextSharp.text.Image chartImage = iTextSharp.text.Image.GetInstance(chartImageStream.ToArray());
 
-        #endregion
+                    // Khởi tạo tài liệu PDF
+                    Document document = new Document(PageSize.A4, 50, 50, 25, 25);
+                    PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+                    document.Open();
+
+                    // Chuẩn bị Font tiếng Việt
+                    string fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf");
+                    BaseFont baseFont = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                    iTextSharp.text.Font titleFont = new iTextSharp.text.Font(baseFont, 18, iTextSharp.text.Font.BOLD);
+                    iTextSharp.text.Font boldFont = new iTextSharp.text.Font(baseFont, 12, iTextSharp.text.Font.BOLD);
+                    iTextSharp.text.Font normalFont = new iTextSharp.text.Font(baseFont, 11, iTextSharp.text.Font.NORMAL);
+
+                    // Thêm nội dung vào PDF
+                    Paragraph title = new Paragraph(chart1.Titles[0].Text.ToUpper(), titleFont) { Alignment = Element.ALIGN_CENTER, SpacingAfter = 20 };
+                    document.Add(title);
+                    document.Add(new Paragraph($"Ngày xuất: {DateTime.Now:dd/MM/yyyy HH:mm:ss}", normalFont) { Alignment = Element.ALIGN_RIGHT });
+                    document.Add(new Paragraph($"Tổng Doanh Thu Năm {numNam.Value}: {lblTongDoanhThu.Text}", boldFont) { SpacingAfter = 20 });
+
+                    chartImage.ScaleToFit(document.PageSize.Width - 100, document.PageSize.Height * 0.4f);
+                    chartImage.Alignment = Element.ALIGN_CENTER;
+                    document.Add(chartImage);
+
+                    // Thêm bảng dữ liệu chi tiết
+                    document.Add(new Paragraph("Chi Tiết Dữ Liệu:", boldFont) { SpacingBefore = 25, SpacingAfter = 15 });
+                    PdfPTable table = new PdfPTable(2);
+                    table.WidthPercentage = 60;
+                    table.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.AddCell(new Phrase("Quý", boldFont));
+                    table.AddCell(new Phrase("Doanh thu (VNĐ)", boldFont));
+
+                    foreach (var point in chart1.Series[0].Points)
+                    {
+                        table.AddCell(new Phrase(point.AxisLabel, normalFont));
+                        table.AddCell(new Phrase(((decimal)point.YValues[0]).ToString("N0"), normalFont));
+                    }
+                    document.Add(table);
+
+                    document.Close();
+                }
+
+                MessageBox.Show($"Xuất báo cáo PDF thành công!\nĐã lưu tại: {filePath}", "Thành Công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Lỗi xuất PDF: File có thể đang được sử dụng. Vui lòng đóng file và thử lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHelper.ShowErrorMessage(ex, "Đã xảy ra lỗi khi xuất file PDF.");
+            }
+        }
 
         private void BaoCaoDTForm_Load(object sender, EventArgs e)
         {
-            // Đã cấu hình mặc định trong LoadDefaultData -> không cần lặp lại
-            LoadDoanhThuTheoThang();
+            // load form
+            InitializeForm();
+
+        }
+
+        private void numNam_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

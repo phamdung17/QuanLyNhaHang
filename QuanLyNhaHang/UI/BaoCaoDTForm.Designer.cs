@@ -36,15 +36,13 @@ namespace QuanLyNhaHang.UI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BaoCaoDTForm));
             this.button1 = new System.Windows.Forms.Button();
             this.entityCommand1 = new System.Data.Entity.Core.EntityClient.EntityCommand();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label1 = new System.Windows.Forms.Label();
             this.lblTongDoanhThu = new System.Windows.Forms.TextBox();
-            this.btnTheoThang = new System.Windows.Forms.Button();
-            this.btnTheoQuy = new System.Windows.Forms.Button();
-            this.btnTheoNam = new System.Windows.Forms.Button();
-            this.dtpDenNgay = new System.Windows.Forms.DateTimePicker();
-            this.dtpTuNgay = new System.Windows.Forms.DateTimePicker();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.button2 = new System.Windows.Forms.Button();
+            this.numNam = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numNam)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -55,7 +53,7 @@ namespace QuanLyNhaHang.UI
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(506, 74);
+            this.button1.Location = new System.Drawing.Point(521, 501);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(140, 40);
             this.button1.TabIndex = 2;
@@ -71,45 +69,13 @@ namespace QuanLyNhaHang.UI
             this.entityCommand1.EnablePlanCaching = true;
             this.entityCommand1.Transaction = null;
             // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BorderlineColor = System.Drawing.Color.LightBlue;
-            chartArea1.BackColor = System.Drawing.Color.White;
-            chartArea1.BackSecondaryColor = System.Drawing.Color.LightBlue;
-            chartArea1.BorderColor = System.Drawing.Color.LightGray;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.BackColor = System.Drawing.Color.Transparent;
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            legend1.ForeColor = System.Drawing.Color.Navy;
-            legend1.IsTextAutoFit = false;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(50, 130);
-            this.chart1.Name = "chart1";
-            series1.BackSecondaryColor = System.Drawing.Color.Transparent;
-            series1.BorderColor = System.Drawing.Color.RoyalBlue;
-            series1.ChartArea = "ChartArea1";
-            series1.Color = System.Drawing.Color.DodgerBlue;
-            series1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            series1.IsValueShownAsLabel = true;
-            series1.Legend = "Legend1";
-            series1.LegendText = "Doanh Thu";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(800, 379);
-            this.chart1.TabIndex = 3;
-            this.chart1.Text = "Biểu Đồ Doanh Thu Theo Ngày";
-            // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.Navy;
-            this.label1.Location = new System.Drawing.Point(474, 524);
+            this.label1.Location = new System.Drawing.Point(480, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(162, 25);
             this.label1.TabIndex = 4;
@@ -123,7 +89,7 @@ namespace QuanLyNhaHang.UI
             this.lblTongDoanhThu.Enabled = false;
             this.lblTongDoanhThu.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.lblTongDoanhThu.ForeColor = System.Drawing.Color.DarkBlue;
-            this.lblTongDoanhThu.Location = new System.Drawing.Point(685, 524);
+            this.lblTongDoanhThu.Location = new System.Drawing.Point(691, 9);
             this.lblTongDoanhThu.Name = "lblTongDoanhThu";
             this.lblTongDoanhThu.ReadOnly = true;
             this.lblTongDoanhThu.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -132,60 +98,45 @@ namespace QuanLyNhaHang.UI
             this.lblTongDoanhThu.Text = "0 VNĐ";
             this.lblTongDoanhThu.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // btnTheoThang
+            // chart1
             // 
-            this.btnTheoThang.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.btnTheoThang.Location = new System.Drawing.Point(81, 12);
-            this.btnTheoThang.Name = "btnTheoThang";
-            this.btnTheoThang.Size = new System.Drawing.Size(75, 29);
-            this.btnTheoThang.TabIndex = 7;
-            this.btnTheoThang.Text = "Tháng";
-            this.btnTheoThang.UseVisualStyleBackColor = false;
-            this.btnTheoThang.Click += new System.EventHandler(this.btnTheoThang_Click);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(52, 106);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(739, 330);
+            this.chart1.TabIndex = 6;
+            this.chart1.Text = "chart1";
             // 
-            // btnTheoQuy
+            // button2
             // 
-            this.btnTheoQuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.btnTheoQuy.Location = new System.Drawing.Point(179, 12);
-            this.btnTheoQuy.Name = "btnTheoQuy";
-            this.btnTheoQuy.Size = new System.Drawing.Size(75, 29);
-            this.btnTheoQuy.TabIndex = 8;
-            this.btnTheoQuy.Text = "Quý";
-            this.btnTheoQuy.UseVisualStyleBackColor = false;
-            this.btnTheoQuy.Click += new System.EventHandler(this.btnTheoQuy_Click);
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(681, 501);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(140, 40);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Xuất PDF";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.btnXuatBaoCao_Click);
             // 
-            // btnTheoNam
+            // numNam
             // 
-            this.btnTheoNam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.btnTheoNam.Location = new System.Drawing.Point(276, 12);
-            this.btnTheoNam.Name = "btnTheoNam";
-            this.btnTheoNam.Size = new System.Drawing.Size(75, 29);
-            this.btnTheoNam.TabIndex = 9;
-            this.btnTheoNam.Text = "Năm";
-            this.btnTheoNam.UseVisualStyleBackColor = false;
-            this.btnTheoNam.Click += new System.EventHandler(this.btnTheoNam_Click);
-            // 
-            // dtpDenNgay
-            // 
-            this.dtpDenNgay.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpDenNgay.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.dtpDenNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDenNgay.Location = new System.Drawing.Point(320, 80);
-            this.dtpDenNgay.Name = "dtpDenNgay";
-            this.dtpDenNgay.Size = new System.Drawing.Size(160, 27);
-            this.dtpDenNgay.TabIndex = 1;
-            this.dtpDenNgay.Value = new System.DateTime(2025, 9, 26, 16, 13, 48, 180);
-            // 
-            // dtpTuNgay
-            // 
-            this.dtpTuNgay.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpTuNgay.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.dtpTuNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTuNgay.Location = new System.Drawing.Point(110, 80);
-            this.dtpTuNgay.Name = "dtpTuNgay";
-            this.dtpTuNgay.Size = new System.Drawing.Size(160, 27);
-            this.dtpTuNgay.TabIndex = 0;
-            this.dtpTuNgay.Value = new System.DateTime(2025, 8, 26, 16, 13, 48, 179);
+            this.numNam.Location = new System.Drawing.Point(366, 516);
+            this.numNam.Name = "numNam";
+            this.numNam.Size = new System.Drawing.Size(120, 25);
+            this.numNam.TabIndex = 9;
+            this.numNam.ValueChanged += new System.EventHandler(this.numNam_ValueChanged);
             // 
             // BaoCaoDTForm
             // 
@@ -193,15 +144,12 @@ namespace QuanLyNhaHang.UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 574);
+            this.Controls.Add(this.numNam);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.lblTongDoanhThu);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.chart1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.dtpDenNgay);
-            this.Controls.Add(this.dtpTuNgay);
-            this.Controls.Add(this.btnTheoThang);
-            this.Controls.Add(this.btnTheoQuy);
-            this.Controls.Add(this.btnTheoNam);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -211,6 +159,7 @@ namespace QuanLyNhaHang.UI
             this.Text = "Báo Cáo Doanh Thu - Nhà Hàng Thịnh Phát";
             this.Load += new System.EventHandler(this.BaoCaoDTForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numNam)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,13 +167,10 @@ namespace QuanLyNhaHang.UI
         #endregion
         private System.Windows.Forms.Button button1;
         private System.Data.Entity.Core.EntityClient.EntityCommand entityCommand1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox lblTongDoanhThu;
-        private System.Windows.Forms.Button btnTheoThang;
-        private System.Windows.Forms.Button btnTheoQuy;
-        private System.Windows.Forms.Button btnTheoNam;
-        private System.Windows.Forms.DateTimePicker dtpDenNgay;
-        private System.Windows.Forms.DateTimePicker dtpTuNgay;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.NumericUpDown numNam;
     }
 }
